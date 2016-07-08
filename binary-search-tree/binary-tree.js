@@ -2,7 +2,7 @@ function BSTree(rootVal) {
     if(rootVal instanceof Array) {
         let values = [ ...rootVal ];
         this.root = new TreeNode(rootVal.shift());
-        rootVal.forEach(val => {
+        values.forEach(val => {
             this.addNode(val);
         });
     } else {
