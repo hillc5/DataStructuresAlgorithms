@@ -1,7 +1,7 @@
 function BSTree(rootVal) {
     if(rootVal instanceof Array) {
         let values = [ ...rootVal ];
-        this.root = new TreeNode(rootVal.shift());
+        this.root = new TreeNode(values.shift());
         values.forEach(val => {
             this.addNode(val);
         });
@@ -26,12 +26,12 @@ BSTree.prototype.getChangeRef = function(value) {
         childDirection: childDirection,
         isNull: !child
     }
-}
+};
 
 BSTree.prototype.addNode = function(value) {
     let { parentRef, childDirection } = this.getChangeRef(value);
     parentRef[childDirection] = new TreeNode(value);
-}
+};
 
 BSTree.prototype.removeNode = function(value) {
     let {
@@ -40,39 +40,31 @@ BSTree.prototype.removeNode = function(value) {
             isNull
         } = this.getChangeRef(value);
 
+    if (!parentRef) { // Removing root node.
+        parentRef = this;
+        childDirection = 'root';
+    }
+
     if (isNull) {
         return false;
     } else {
-        let isRoot = !parentRef,
-            child = parentRef ? parentRef[childDirection] : this.root,
+        let child = parentRef ? parentRef[childDirection] : this.root,
             isLeaf = child.isLeaf(),
             isFull = child.left !== null && child.right !== null;
 
         if (isLeaf) {
             // need to dereference to make the change
-            if (isRoot) {   
-                this.root = null;
-            } else {
-                parentRef[childDirection] = null;
-            }
+            parentRef[childDirection] = null;
         } else if (isFull) {
             let smNode = getAndRemoveSmallestNode(child.right, child);
 
             smNode.left = child.left;
             smNode.right = child.right;
 
-            if (isRoot) {
-                this.root = smNode;
-            } else {
-                parentRef[childDirection] = smNode;
-            }
+            parentRef[childDirection] = smNode;
         } else {
             let nextChildDirection = child.left ? child.LEFT : child.RIGHT;
-            if (isRoot) {
-                this.root = child[nextChildDirection];
-            } else {
-                parentRef[childDirection] = child[nextChildDirection];
-            }
+            parentRef[childDirection] = child[nextChildDirection];
         }
         return true;
     }
@@ -97,7 +89,7 @@ BSTree.prototype.removeNode = function(value) {
 
         return result;
     }
-}
+};
 
 
 function TreeNode(val) {
@@ -109,17 +101,9 @@ function TreeNode(val) {
 TreeNode.prototype.LEFT = 'left';
 TreeNode.prototype.RIGHT = 'right';
 
-TreeNode.prototype.setLeft = function(node) {
-    this.left = node;
-}
-
-TreeNode.prototype.setRight = function(node) {
-    this.right = node;
-}
-
 TreeNode.prototype.isLeaf = function() {
     return this.left === null && this.right === null;
-}
+};
 
 let a = new BSTree([1, 20, 5, 4, 13, 22, 10, 21]);
 a.removeNode(20);
