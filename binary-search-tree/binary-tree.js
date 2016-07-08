@@ -49,8 +49,8 @@ BSTree.prototype.removeNode = function(value) {
             isFull = child.left !== null && child.right !== null;
 
         if (isLeaf) {
-            // need to deparentRef to make the change
-            if (isRoot) {
+            // need to dereference to make the change
+            if (isRoot) {   
                 this.root = null;
             } else {
                 parentRef[childDirection] = null;
