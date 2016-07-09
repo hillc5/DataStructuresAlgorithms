@@ -1,4 +1,10 @@
 export default function BSTree(rootVal) {
+    if (!rootVal) {
+        throw new Error('The root value must be defined');
+    }
+
+    this.size = 1;
+
     if(rootVal instanceof Array) {
         let values = [ ...rootVal ];
         this.root = new TreeNode(values.shift());
@@ -31,6 +37,7 @@ BSTree.prototype.getChangeRef = function(value) {
 BSTree.prototype.addNode = function(value) {
     let { parentRef, childDirection } = this.getChangeRef(value);
     parentRef[childDirection] = new TreeNode(value);
+    this.size++;
 };
 
 BSTree.prototype.removeNode = function(value) {
@@ -66,6 +73,7 @@ BSTree.prototype.removeNode = function(value) {
             let nextChildDirection = child.left ? child.LEFT : child.RIGHT;
             parentRef[childDirection] = child[nextChildDirection];
         }
+        this.size --;
         return true;
     }
 
