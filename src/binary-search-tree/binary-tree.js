@@ -25,7 +25,7 @@ function getChangeRef(root, value, changeType) {
 
     function isReference(child, changeType) {
         let addTest = !!(child === null),
-            removeTest = !!(child !== null && child.value === value);
+            removeTest = !!(child === null || child.value === value);
 
         return changeType === ADD ? addTest : removeTest
     }

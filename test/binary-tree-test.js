@@ -238,6 +238,16 @@ test(`${MODULE} should handle the removal of a node with two non-leaf children`,
     t.end();
 });
 
+test(`${MODULE} should return false and not update the size if value not found on remove`, t => {
+    let tree = new BSTree([1, 3, 5]),
+        valueRemoved;
+    t.equal(tree.size, 3);
+    valueRemoved = tree.removeNode(7);
+    t.notOk(valueRemoved);
+    t.equal(tree.size, 3);
+    t.end();
+});
+
 test(`${MODULE} should return values with an in order traversal`, t => {
     let tree = new BSTree([ 20, 5, 22, 21, 24, 23, 25 ]),
         values = tree.valuesInOrder();
