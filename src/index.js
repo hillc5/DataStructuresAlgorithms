@@ -1,7 +1,9 @@
 import BSTree from './binary-search-tree/binary-tree';
 
-let a = new BSTree([1, 20, 5, 4, 13, 22, 10, 21]);
-a.removeNode(20);
-a.removeNode(5);
-a.removeNode(4);
-a.removeNode(1);
+let values = [];
+
+for (let i = 0; i < 1e6; i++) {
+    values.push(Math.floor(Math.random() * 10000) + 1);
+}
+let a = new BSTree(values);
+console.log(a.printInOrder());

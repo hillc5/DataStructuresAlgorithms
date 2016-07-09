@@ -1,3 +1,33 @@
+const ADD = 'add';
+const REMOVE = 'remove';
+
+function getChangeRef(root, value, changeType) {
+    let child = root,
+        test = testChild(child, changeType),
+        childDirection,
+        parent;
+
+    while(test) {
+        parent = child;
+        childDirection = child.value > value ? child.LEFT : child.RIGHT;
+        child = parent[childDirection];
+        test = testChild(child, changeType);
+    }
+
+    return {
+        parentRef: parent,
+        childDirection: childDirection,
+        isNull: !child
+    };
+
+    function testChild(child, changeType) {
+        let addTest = !!(child !== null),
+            removeTest = !!(child !== null && child.value !== value);
+
+        return changeType === ADD ? addTest : removeTest
+    }
+};
+
 export default function BSTree(rootVal) {
     if (!rootVal) {
         throw new Error('The root value must be defined');
@@ -16,26 +46,22 @@ export default function BSTree(rootVal) {
     }
 }
 
-BSTree.prototype.getChangeRef = function(value) {
-    let child = this.root,
-        childDirection,
-        parent;
-
-    while(child && child.value !== value) {
-        parent = child;
-        childDirection = child.value > value ? child.LEFT : child.RIGHT;
-        child = parent[childDirection];
-    }
-
-    return {
-        parentRef: parent,
-        childDirection: childDirection,
-        isNull: !child
+BSTree.prototype.valuesInOrder = function() {
+    return getValuesInOrder(this.root);
+    
+    function getValuesInOrder(node) {
+        let result = [];
+        if (node) {
+            result = result.concat(getValuesInOrder(node.left));
+            result.push(node.value);
+            result = result.concat(getValuesInOrder(node.right));
+        }
+        return result;
     }
 };
 
 BSTree.prototype.addNode = function(value) {
-    let { parentRef, childDirection } = this.getChangeRef(value);
+    let { parentRef, childDirection } = getChangeRef(this.root, value, ADD);
     parentRef[childDirection] = new TreeNode(value);
     this.size++;
 };
@@ -45,7 +71,7 @@ BSTree.prototype.removeNode = function(value) {
             parentRef,
             childDirection,
             isNull
-        } = this.getChangeRef(value);
+        } = getChangeRef(this.root, value, REMOVE);
 
     if (!parentRef) { // Removing root node.
         parentRef = this;
@@ -55,7 +81,7 @@ BSTree.prototype.removeNode = function(value) {
     if (isNull) {
         return false;
     } else {
-        let child = parentRef ? parentRef[childDirection] : this.root,
+        let child = parentRef[childDirection],
             isLeaf = child.isLeaf(),
             isFull = child.left !== null && child.right !== null;
 
@@ -77,8 +103,8 @@ BSTree.prototype.removeNode = function(value) {
         return true;
     }
 
-    // Returns a reference to the smallest node beginning with startRef,
-    // while deleting the node from the tree.
+    //  Returns a reference to the smallest node within the
+    //  startRef tree, while also deleting the node from the tree.
     function getAndRemoveSmallestNode(startRef, parentRef) {
         let startValue = startRef.value,
             smDirection,
@@ -108,7 +134,6 @@ function TreeNode(val) {
 
 TreeNode.prototype.LEFT = 'left';
 TreeNode.prototype.RIGHT = 'right';
-
 TreeNode.prototype.isLeaf = function() {
     return this.left === null && this.right === null;
 };
