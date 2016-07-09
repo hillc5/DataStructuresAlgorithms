@@ -3,26 +3,29 @@ const REMOVE = 'remove';
 
 function getChangeRef(root, value, changeType) {
     let child = root,
-        test = testChild(child, changeType),
+        referenceNotFound = !isReference(child, changeType),
         childDirection,
         parent;
 
-    while(test) {
+    while(referenceNotFound) {
         parent = child;
         childDirection = child.value > value ? child.LEFT : child.RIGHT;
         child = parent[childDirection];
-        test = testChild(child, changeType);
+        referenceNotFound = !isReference(child, changeType);
     }
 
+    // return the parent reference to the value,
+    // that we are searching for so that the tree
+    // can be updated properly
     return {
         parentRef: parent,
         childDirection: childDirection,
         isNull: !child
     };
 
-    function testChild(child, changeType) {
-        let addTest = !!(child !== null),
-            removeTest = !!(child !== null && child.value !== value);
+    function isReference(child, changeType) {
+        let addTest = !!(child === null),
+            removeTest = !!(child !== null && child.value === value);
 
         return changeType === ADD ? addTest : removeTest
     }
