@@ -1,4 +1,4 @@
-function BSTree(rootVal) {
+export default function BSTree(rootVal) {
     if(rootVal instanceof Array) {
         let values = [ ...rootVal ];
         this.root = new TreeNode(values.shift());
@@ -104,9 +104,3 @@ TreeNode.prototype.RIGHT = 'right';
 TreeNode.prototype.isLeaf = function() {
     return this.left === null && this.right === null;
 };
-
-let a = new BSTree([1, 20, 5, 4, 13, 22, 10, 21]);
-a.removeNode(20);
-a.removeNode(5);
-a.removeNode(4);
-a.removeNode(1);
