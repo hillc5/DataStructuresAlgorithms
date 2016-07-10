@@ -9,4 +9,10 @@ let values = [];
 values = [3, 1, 5];
 let a = new BSTree(values);
 console.log(a.valuesInOrder());
-a.removeNode(7);
+a.removeNode(3);
+a.removeNode(5);
+a.removeNode(1);
+
+a.addNode(4);
+
+let b = new BSTree(2);

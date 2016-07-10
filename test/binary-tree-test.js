@@ -59,18 +59,10 @@ test(`${MODULE} - constructor should create an entire tree out of an array`, t =
     t.end();
 });
 
-test(`${MODULE} - constructor should throw an error declaring that the root value must be defined`, t => {
-    t.throws(BSTree, /The root value must be defined/);
-    t.end();
-});
-
-test(`${MODULE} - constructor should throw the error when no value is given`, t => {
-    try {
-        new BSTree();
-    } catch(e) {
-        t.ok(e);
-        t.equal(e.message, 'The root value must be defined');
-    }
+test(`${MODULE} - constructor should create an empty tree when no root value supplied`, t => {
+    let tree = new BSTree();
+    t.equal(tree.size, 0);
+    t.equal(tree.root, null);
     t.end();
 });
 
@@ -79,6 +71,17 @@ test(`${MODULE} - addNode should update the size when called`, t => {
     t.equal(tree.size, 1);
     tree.addNode(3);
     t.equal(tree.size, 2);
+    t.end();
+});
+
+test(`${MODULE} - addNode should add a node to the root, if the tree is empty`, t => {
+    let tree = new BSTree();
+    t.equal(tree.size, 0);
+    t.notOk(tree.root);
+    tree.addNode(4);
+    t.equal(tree.size, 1);
+    t.ok(tree.root);
+    t.equal(tree.root.value, 4);
     t.end();
 });
 
@@ -274,6 +277,16 @@ test(`${MODULE} - removeNode should return false and not update the size if valu
     valueRemoved = tree.removeNode(7);
     t.notOk(valueRemoved);
     t.equal(tree.size, 3);
+    t.end();
+});
+
+test(`${MODULE} - removeNode should be able to remove the entire tree`, t => {
+    let tree = new BSTree([ 1, 3, 5 ]);
+    t.equal(tree.size, 3);
+    tree.removeNode(1);
+    tree.removeNode(3);
+    tree.removeNode(5);
+    t.equal(tree.size, 0);
     t.end();
 });
 

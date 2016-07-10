@@ -1,5 +1,6 @@
 const ADD = 'add';
 const REMOVE = 'remove';
+const ROOT = 'root';
 
 /**
  * Returns the parent reference and the direction that
@@ -91,21 +92,21 @@ function isGreaterThan(val1, val2, comparator) {
  * @constructor
  */
 function BSTree(rootVal, comparatorFn) {
-    if (!rootVal) {
-        throw new Error('The root value must be defined');
-    }
-
+    this.root = null;
     this.comparatorFn = comparatorFn;
-    this.size = 1;
+    this.size = 0;
 
-    if(rootVal instanceof Array) {
-        let values = [ ...rootVal ];
-        this.root = new TreeNode(values.shift());
+    if (rootVal) {
+        let values = [];
+        if (typeof rootVal[Symbol.iterator] === 'function') {
+            values = [ ...rootVal ];
+        } else {
+            values.push(rootVal);
+        }
+
         values.forEach(val => {
             this.addNode(val);
         });
-    } else {
-        this.root = new TreeNode(rootVal);
     }
 }
 
@@ -147,6 +148,11 @@ BSTree.prototype.valuesInOrder = function() {
  */
 BSTree.prototype.addNode = function(value) {
     let { parentRef, childDirection } = getChangeRef(this, value, ADD);
+
+    if (!parentRef) {
+        parentRef = this;
+        childDirection = ROOT;
+    }
     parentRef[childDirection] = new TreeNode(value);
     this.size++;
 };
@@ -167,7 +173,7 @@ BSTree.prototype.removeNode = function(value) {
 
     if (!parentRef) { // Removing root node.
         parentRef = this;
-        childDirection = 'root';
+        childDirection = ROOT;
     }
 
     if (isNull) {
