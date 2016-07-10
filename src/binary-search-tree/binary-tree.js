@@ -12,20 +12,20 @@ const REMOVE = 'remove';
  *
  * If the change type is 'remove' then the reference
  * will be to the parent of the value to be removed.
- * @param root
+ * @param context
  * @param value
  * @param changeType
  * @returns {{parentRef: *, childDirection: *, isNull: boolean}}
  */
-function getChangeRef(root, value, changeType) {
-    let child = root,
+function getChangeRef(context, value, changeType) {
+    let child = context.root,
         referenceNotFound = !isReference(child, changeType),
         childDirection,
         parent;
 
     while(referenceNotFound) {
         parent = child;
-        childDirection = child.value > value ? child.LEFT : child.RIGHT;
+        childDirection = isGreaterThan(child.value, value, context.comparatorFn) ? child.LEFT : child.RIGHT;
         child = parent[childDirection];
         referenceNotFound = !isReference(child, changeType);
     }
@@ -39,9 +39,9 @@ function getChangeRef(root, value, changeType) {
         isNull: !child
     };
 
-    function isReference(child, changeType) {
-        let addTest = child === null,
-            removeTest = child === null || child.value === value;
+    function isReference(node, changeType) {
+        let addTest = node === null,
+            removeTest = node === null || node.value === value;
 
         return changeType === ADD ? addTest : removeTest
     }
@@ -73,19 +73,29 @@ function getAndRemoveSmallestNode(startRef, parentRef) {
     return result;
 }
 
+function isGreaterThan(val1, val2, comparator) {
+    return comparator ? comparator(val1, val2) > 0 : val1 > val2;
+}
+
 /**
  * Binary Search Tree constructor function.  Takes either a single value
  * to be stored at the root of the tree, or an array of values that will
  * be used to create an entire binary search tree.
  *
+ * Also takes a comparatorFn that compares two values and returns -1 if
+ * the first value is less than the second value, 1 if the first value
+ * is greater than the second value, 0 if they are considered equal.
+ *
  * @param rootVal
+ * @param comparatorFn
  * @constructor
  */
-function BSTree(rootVal) {
+function BSTree(rootVal, comparatorFn) {
     if (!rootVal) {
         throw new Error('The root value must be defined');
     }
 
+    this.comparatorFn = comparatorFn;
     this.size = 1;
 
     if(rootVal instanceof Array) {
@@ -106,7 +116,7 @@ function BSTree(rootVal) {
  * @returns {boolean}
  */
 BSTree.prototype.contains = function(value) {
-    let { isNull } = getChangeRef(this.root, value, REMOVE);
+    let { isNull } = getChangeRef(this, value, REMOVE);
     return !isNull;
 };
 
@@ -136,7 +146,7 @@ BSTree.prototype.valuesInOrder = function() {
  * @param value
  */
 BSTree.prototype.addNode = function(value) {
-    let { parentRef, childDirection } = getChangeRef(this.root, value, ADD);
+    let { parentRef, childDirection } = getChangeRef(this, value, ADD);
     parentRef[childDirection] = new TreeNode(value);
     this.size++;
 };
@@ -153,7 +163,7 @@ BSTree.prototype.removeNode = function(value) {
             parentRef,
             childDirection,
             isNull
-        } = getChangeRef(this.root, value, REMOVE);
+        } = getChangeRef(this, value, REMOVE);
 
     if (!parentRef) { // Removing root node.
         parentRef = this;

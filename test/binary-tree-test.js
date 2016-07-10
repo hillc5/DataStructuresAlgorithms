@@ -3,19 +3,26 @@ import BSTree from '../src/binary-search-tree/binary-tree';
 
 const MODULE = 'BINARY_SEARCH_TREE';
 
+test(`${MODULE} - constructor should take an optional comparatorFn`, t => {
+    let tree = new BSTree(2, (val1, val2) => { return val1 - val2; });
+    t.ok(tree.comparatorFn);
+    t.end();
+});
+
 test(`${MODULE} - constructor should create one tree node when initialized with one value`, t => {
-    let a = new BSTree(2);
-    t.equal(a.root.value, 2);
-    t.equal(a.size, 1);
+    let tree = new BSTree(2);
+    t.equal(tree.root.value, 2);
+    t.equal(tree.size, 1);
     t.end();
 });
 
 test(`${MODULE} - constructor should create an entire tree out of an array`, t => {
-    let values = [ 1, 5, 20, 3, -1, 0, -2],
+    let values = [ 1, 5, 20, 3, -1, 0, -2 ],
         tree;
 
     const expected = {
         size: 7,
+        comparatorFn: undefined,
         root: {
             value: 1,
             left: {
@@ -86,6 +93,7 @@ test(`${MODULE} - addNode should add nodes to the right branch when greater than
             },
             left: null
         },
+        comparatorFn: undefined,
         size: 2
     };
     let tree = new BSTree(2);
@@ -105,6 +113,7 @@ test(`${MODULE} - addNode should add nodes to the left branch when less than any
                 value: 1
             }
         },
+        comparatorFn: undefined,
         size: 2
     };
     let tree = new BSTree(2);
@@ -133,6 +142,7 @@ test(`${MODULE} - removeNode should handle removal of leaf node`, t => {
                 value: 5
             }
         },
+        comparatorFn: undefined,
         size: 2
     };
     let tree = new BSTree(2);
@@ -160,6 +170,7 @@ test(`${MODULE} - removeNode should handle the removal of a node with one child`
                       }
                   }
               },
+              comparatorFn: undefined,
               size: 3
           },
           expected = {
@@ -172,6 +183,7 @@ test(`${MODULE} - removeNode should handle the removal of a node with one child`
                       value: 7
                   }
               },
+              comparatorFn: undefined,
               size: 2
           };
     let tree = new BSTree(2);
@@ -187,6 +199,7 @@ test(`${MODULE} - removeNode should handle the removal of a node with one child`
 test(`${MODULE} - removeNode should handle the removal of a node with two non-leaf children`, t => {
     const before = {
             size: 7,
+            comparatorFn: undefined,
             root: {
                 value: 20,
                 left: {
@@ -219,6 +232,7 @@ test(`${MODULE} - removeNode should handle the removal of a node with two non-le
         },
         after = {
             size: 6,
+            comparatorFn: undefined,
             root: {
                 value: 20,
                 left: {
@@ -254,7 +268,7 @@ test(`${MODULE} - removeNode should handle the removal of a node with two non-le
 });
 
 test(`${MODULE} - removeNode should return false and not update the size if value not found on remove`, t => {
-    let tree = new BSTree([1, 3, 5]),
+    let tree = new BSTree([ 1, 3, 5 ]),
         valueRemoved;
     t.equal(tree.size, 3);
     valueRemoved = tree.removeNode(7);
@@ -264,7 +278,7 @@ test(`${MODULE} - removeNode should return false and not update the size if valu
 });
 
 test(`${MODULE} - contains should return true if the value is found`, t => {
-    let tree = new BSTree([1, 3, 6, 7]),
+    let tree = new BSTree([ 1, 3, 6, 7 ]),
         found = tree.contains(1);
 
     t.ok(found);
@@ -272,7 +286,7 @@ test(`${MODULE} - contains should return true if the value is found`, t => {
 });
 
 test(`${MODULE} - contains should return false if the value is not found`, t => {
-    let tree = new BSTree([1, 3, 6, 7]),
+    let tree = new BSTree([ 1, 3, 6, 7 ]),
         found = tree.contains(-1);
 
     t.notOk(found);
@@ -285,6 +299,16 @@ test(`${MODULE} - valuesInOrder should return values with an in order traversal`
 
     const expected = [ 5, 20, 21, 22, 23, 24, 25 ];
     t.deepEqual(values, expected);
+    t.end();
+});
+
+test(`${MODULE} - comparatorFn should work when specified`, t => {
+    const largestFirst = (val1, val2) => (val1 > val2) ? -1 : (val1 < val2) ? 1 : 0;
+
+    let tree = new BSTree([ 1, 3, -1, 20, -6, 45 ], largestFirst);
+    t.equal(tree.comparatorFn, largestFirst);
+    let values = tree.valuesInOrder();
+    t.deepEqual(values, [ 45, 20, 3, 1, -1, -6]);
     t.end();
 });
 
