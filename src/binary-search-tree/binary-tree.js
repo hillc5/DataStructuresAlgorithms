@@ -1,17 +1,22 @@
 const ADD = 'add';
 const REMOVE = 'remove';
 
-// Returns the parent reference and the direction that
-// needs to be changed to influence the given value, as
-// well as a boolean flag whether the child is currently null.
-//
-// If the change type is 'add', then the reference will
-// be to the parent of the null leaf where the value will be
-// placed.
-//
-// If the change type is 'remove' then the reference
-// will be to the parent of the value to be removed.
-//
+/**
+ * Returns the parent reference and the direction that
+ * needs to be changed to influence the given value, as
+ * well as a boolean flag whether the child is currently null.
+ *
+ * If the change type is 'add', then the reference will
+ * be to the parent of the null leaf where the value will be
+ * placed.
+ *
+ * If the change type is 'remove' then the reference
+ * will be to the parent of the value to be removed.
+ * @param root
+ * @param value
+ * @param changeType
+ * @returns {{parentRef: *, childDirection: *, isNull: boolean}}
+ */
 function getChangeRef(root, value, changeType) {
     let child = root,
         referenceNotFound = !isReference(child, changeType),
@@ -35,16 +40,20 @@ function getChangeRef(root, value, changeType) {
     };
 
     function isReference(child, changeType) {
-        let addTest = !!(child === null),
-            removeTest = !!(child === null || child.value === value);
+        let addTest = child === null,
+            removeTest = child === null || child.value === value;
 
         return changeType === ADD ? addTest : removeTest
     }
 }
 
-
-//  Returns a reference to the smallest node within the
-//  startRef tree, while also deleting the node from the tree.
+/**
+ * Returns a reference to the smallest node within the
+ * startRef tree, while also deleting the node from the tree.
+ * @param startRef
+ * @param parentRef
+ * @returns {*}
+ */
 function getAndRemoveSmallestNode(startRef, parentRef) {
     let startValue = startRef.value,
         smDirection,
@@ -159,7 +168,6 @@ BSTree.prototype.removeNode = function(value) {
             isFull = child.left !== null && child.right !== null;
 
         if (isLeaf) {
-            // need to dereference to make the change
             parentRef[childDirection] = null;
         } else if (isFull) {
             let smNode = getAndRemoveSmallestNode(child.right, child);
