@@ -1,16 +1,16 @@
 import test from 'tape';
 import BSTree from '../src/binary-search-tree/binary-tree';
 
-const MODULE = 'BINARY SEARCH TREE';
+const MODULE = 'BINARY_SEARCH_TREE';
 
-test(`${MODULE} should create one tree node when initialized with one value`, t => {
+test(`${MODULE} - constructor should create one tree node when initialized with one value`, t => {
     let a = new BSTree(2);
     t.equal(a.root.value, 2);
     t.equal(a.size, 1);
     t.end();
 });
 
-test(`${MODULE} should create an entire tree out of an array`, t => {
+test(`${MODULE} - constructor should create an entire tree out of an array`, t => {
     let values = [ 1, 5, 20, 3, -1, 0, -2],
         tree;
 
@@ -52,7 +52,22 @@ test(`${MODULE} should create an entire tree out of an array`, t => {
     t.end();
 });
 
-test(`${MODULE} should support the add operation`, t => {
+test(`${MODULE} - constructor should throw an error declaring that the root value must be defined`, t => {
+    t.throws(BSTree, /The root value must be defined/);
+    t.end();
+});
+
+test(`${MODULE} - constructor should throw the error when no value is given`, t => {
+    try {
+        new BSTree();
+    } catch(e) {
+        t.ok(e);
+        t.equal(e.message, 'The root value must be defined');
+    }
+    t.end();
+});
+
+test(`${MODULE} - addNode should update the size when called`, t => {
     let tree = new BSTree(2);
     t.equal(tree.size, 1);
     tree.addNode(3);
@@ -60,7 +75,7 @@ test(`${MODULE} should support the add operation`, t => {
     t.end();
 });
 
-test(`${MODULE} should add nodes to the right branch when greater than any node during add`, t => {
+test(`${MODULE} - addNode should add nodes to the right branch when greater than any node during add`, t => {
     const expected = {
         root: {
             value: 2,
@@ -79,7 +94,7 @@ test(`${MODULE} should add nodes to the right branch when greater than any node 
     t.end();
 });
 
-test(`${MODULE} should add nodes to the left branch when less than any node during add`, t => {
+test(`${MODULE} - addNode should add nodes to the left branch when less than any node during add`, t => {
     const expected = {
         root: {
             value: 2,
@@ -98,7 +113,7 @@ test(`${MODULE} should add nodes to the left branch when less than any node duri
     t.end();
 });
 
-test(`${MODULE} should support the remove operation`, t => {
+test(`${MODULE} - removeNode should decrease the size when successful`, t => {
     let tree = new BSTree(2);
     tree.addNode(3);
     t.equal(tree.size, 2);
@@ -107,7 +122,7 @@ test(`${MODULE} should support the remove operation`, t => {
     t.end();
 });
 
-test(`${MODULE} should handle remove of leaf node`, t => {
+test(`${MODULE} - removeNode should handle removal of leaf node`, t => {
     const expected = {
         root: {
             value: 2,
@@ -130,7 +145,7 @@ test(`${MODULE} should handle remove of leaf node`, t => {
     t.end();
 });
 
-test(`${MODULE} should handle the remove of a node with one child`, t => {
+test(`${MODULE} - removeNode should handle the removal of a node with one child`, t => {
     const beforeRemove = {
               root: {
                   value: 2,
@@ -169,7 +184,7 @@ test(`${MODULE} should handle the remove of a node with one child`, t => {
     t.end();
 });
 
-test(`${MODULE} should handle the removal of a node with two non-leaf children`, t => {
+test(`${MODULE} - removeNode should handle the removal of a node with two non-leaf children`, t => {
     const before = {
             size: 7,
             root: {
@@ -238,7 +253,7 @@ test(`${MODULE} should handle the removal of a node with two non-leaf children`,
     t.end();
 });
 
-test(`${MODULE} should return false and not update the size if value not found on remove`, t => {
+test(`${MODULE} - removeNode should return false and not update the size if value not found on remove`, t => {
     let tree = new BSTree([1, 3, 5]),
         valueRemoved;
     t.equal(tree.size, 3);
@@ -248,7 +263,23 @@ test(`${MODULE} should return false and not update the size if value not found o
     t.end();
 });
 
-test(`${MODULE} should return values with an in order traversal`, t => {
+test(`${MODULE} - contains should return true if the value is found`, t => {
+    let tree = new BSTree([1, 3, 6, 7]),
+        found = tree.contains(1);
+
+    t.ok(found);
+    t.end();
+});
+
+test(`${MODULE} - contains should return false if the value is not found`, t => {
+    let tree = new BSTree([1, 3, 6, 7]),
+        found = tree.contains(-1);
+
+    t.notOk(found);
+    t.end();
+});
+
+test(`${MODULE} - valuesInOrder should return values with an in order traversal`, t => {
     let tree = new BSTree([ 20, 5, 22, 21, 24, 23, 25 ]),
         values = tree.valuesInOrder();
 
