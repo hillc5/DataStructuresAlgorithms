@@ -48,34 +48,21 @@ function getChangeRef(context, value, changeType) {
     }
 }
 
-/**
- * Returns a reference to the smallest node within the
- * startRef tree, while also deleting the node from the tree.
- * @param startRef
- * @param parentRef
- * @returns {*}
- */
-function getAndRemoveSmallestNode(startRef, parentRef) {
-    let startValue = startRef.value,
-        smDirection,
-        result;
-
-    while (startRef.left) {
-        parentRef = startRef;
-        startRef = startRef.left;
-    }
-
-    result = startRef;
-    // in case startRef is smallest value, meaning it will be on it's parent's right
-    smDirection = (startValue === startRef.value) ? startRef.RIGHT : startRef.LEFT;
-
-    parentRef[smDirection] = null;
-
-    return result;
-}
-
 function isGreaterThan(val1, val2, comparator) {
     return comparator ? comparator(val1, val2) > 0 : val1 > val2;
+}
+
+/**
+ * Returns the smallest value in the given tree
+ *
+ * @param treeNode
+ * @returns {*}
+ */
+function getSmallestValue(treeNode) {
+    if (treeNode.left === null) {
+        return treeNode.value;
+    }
+    return getSmallestValue(treeNode.left);
 }
 
 /**
@@ -186,7 +173,7 @@ BSTree.prototype.removeNode = function(value) {
         if (isLeaf) {
             parentRef[childDirection] = null;
         } else if (isFull) {
-            let smNode = getAndRemoveSmallestNode(child.right, child);
+            let smNode = getAndRemoveSmallestFromSubtree(child.right, child);
 
             smNode.left = child.left;
             smNode.right = child.right;
@@ -197,9 +184,38 @@ BSTree.prototype.removeNode = function(value) {
             parentRef[childDirection] = child[nextChildDirection];
         }
         this.size --;
-        return true;
+        return child;
+    }
+
+    function getAndRemoveSmallestFromSubtree(startRef, parentRef) {
+        let startValue = startRef.value,
+            smDirection,
+            result;
+
+        while (startRef.left) {
+            parentRef = startRef;
+            startRef = startRef.left;
+        }
+
+        result = startRef;
+        // in case startRef is smallest value, meaning it will be on it's parent's right
+        smDirection = (startValue === startRef.value) ? startRef.RIGHT : startRef.LEFT;
+
+        parentRef[smDirection] = null;
+
+        return result;
     }
 };
+
+/**
+ * Removes and returns the smallest node in the Tree
+ *
+ * @returns {boolean}
+ */
+BSTree.prototype.removeSmallestNode = function() {
+    return this.removeNode(getSmallestValue(this.root));
+};
+
 
 /**
  * Constructor function for a simple TreeNode that stores

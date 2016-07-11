@@ -125,6 +125,25 @@ test(`${MODULE} - addNode should add nodes to the left branch when less than any
     t.end();
 });
 
+test(`${MODULE} - removeNode should return the removed node when successful`, t => {
+    let tree = new BSTree([ 2, 3 ] ),
+        expectedRemoved = { value: 3, left: null, right: null },
+        removedNode;
+    removedNode = tree.removeNode(3);
+    t.deepEqual(removedNode, expectedRemoved);
+    t.end();
+});
+
+test(`${MODULE} - removeNode should return false and not update the size if value not found on remove`, t => {
+    let tree = new BSTree([ 1, 3, 5 ]),
+        valueRemoved;
+    t.equal(tree.size, 3);
+    valueRemoved = tree.removeNode(7);
+    t.notOk(valueRemoved);
+    t.equal(tree.size, 3);
+    t.end();
+});
+
 test(`${MODULE} - removeNode should decrease the size when successful`, t => {
     let tree = new BSTree(2);
     tree.addNode(3);
@@ -267,16 +286,6 @@ test(`${MODULE} - removeNode should handle the removal of a node with two non-le
     t.deepEqual(tree, before);
     tree.removeNode(22);
     t.deepEqual(tree, after);
-    t.end();
-});
-
-test(`${MODULE} - removeNode should return false and not update the size if value not found on remove`, t => {
-    let tree = new BSTree([ 1, 3, 5 ]),
-        valueRemoved;
-    t.equal(tree.size, 3);
-    valueRemoved = tree.removeNode(7);
-    t.notOk(valueRemoved);
-    t.equal(tree.size, 3);
     t.end();
 });
 
