@@ -299,6 +299,49 @@ test(`${MODULE} - removeNode should be able to remove the entire tree`, t => {
     t.end();
 });
 
+test(`${MODULE} - removeSmallestNode should remove the smallest node in the tree`, t => {
+    let tree = new BSTree([ 1, 3, 5 ]);
+    tree.removeSmallestNode();
+    t.equal(tree.size, 2);
+    t.deepEqual(tree.valuesInOrder(), [ 3, 5 ]);
+    t.end();
+});
+
+test(`${MODULE} - removeSmallestNode should return the smallest node in the tree`, t => {
+    let tree = new BSTree([ 1, 3, 5 ]),
+        expected = {
+            value: 1,
+            left: null,
+            right: null
+        };
+
+    t.deepEqual(tree.removeSmallestNode(), expected);
+    t.end();
+});
+
+test(`${MODULE} - removeSmallestNode should return the smallest node based on a comparator`, t => {
+    let comparator = (val1, val2) => (val1 < val2) ? 1 : (val1 > val2) ? -1 : 0,
+        tree = new BSTree([ 1, 3, 5, 7 ], comparator),
+        expected = {
+            value: 7,
+            left: null,
+            right: null
+        };
+
+    t.deepEqual(tree.removeSmallestNode(), expected);
+    t.equal(tree.size, 3);
+    t.end();
+});
+
+test(`${MODULE} - removeAll should reduce the tree to an empty tree`, t => {
+    let tree = new BSTree([ 1, 3, 5, 7 ]);
+    t.equal(tree.size, 4);
+    tree.removeAll();
+    t.equal(tree.size, 0);
+    t.equal(tree.root, null);
+    t.end();
+});
+
 test(`${MODULE} - contains should return true if the value is found`, t => {
     let tree = new BSTree([ 1, 3, 6, 7 ]),
         found = tree.contains(1);
@@ -321,6 +364,19 @@ test(`${MODULE} - valuesInOrder should return values with an in order traversal`
 
     const expected = [ 5, 20, 21, 22, 23, 24, 25 ];
     t.deepEqual(values, expected);
+    t.end();
+});
+
+test(`${MODULE} - getSmallestValue should return the smallest value without affecting the tree`, t => {
+    let tree = new BSTree([ 1, 3, 5, 7, -1 ]);
+    t.equal(tree.getSmallestValue(), -1);
+    t.equal(tree.size, 5);
+    t.end();
+});
+
+test(`${MODULE} - getSmallestValue should return null if the tree is empty`, t => {
+    let tree = new BSTree();
+    t.equal(tree.getSmallestValue(), null);
     t.end();
 });
 

@@ -53,19 +53,6 @@ function isGreaterThan(val1, val2, comparator) {
 }
 
 /**
- * Returns the smallest value in the given tree
- *
- * @param treeNode
- * @returns {*}
- */
-function getSmallestValue(treeNode) {
-    if (treeNode.left === null) {
-        return treeNode.value;
-    }
-    return getSmallestValue(treeNode.left);
-}
-
-/**
  * Binary Search Tree constructor function.  Takes either a single value
  * to be stored at the root of the tree, or an array of values that will
  * be used to create an entire binary search tree.
@@ -208,12 +195,43 @@ BSTree.prototype.removeNode = function(value) {
 };
 
 /**
- * Removes and returns the smallest node in the Tree
+ * Removes and returns the smallest node in the Tree,
+ * null if the tree is empty
  *
- * @returns {boolean}
+ * @returns {TreeNode}
  */
 BSTree.prototype.removeSmallestNode = function() {
-    return this.removeNode(getSmallestValue(this.root));
+    let value = this.getSmallestValue(),
+        result = null;
+    if (value) {
+        result = this.removeNode(value);
+        result.left = null;
+        result.right = null;
+    }
+    return result;
+};
+
+/**
+ * Returns the smallest value in the given tree, null if the
+ * tree is empty
+ *
+ * @param treeNode
+ * @returns {*}
+ */
+BSTree.prototype.getSmallestValue = function(treeNode = this.root) {
+    if (treeNode) {
+        if (treeNode.left === null) {
+            return treeNode.value;
+        }
+        return this.getSmallestValue(treeNode.left);
+    }
+    return null;
+};
+
+BSTree.prototype.removeAll = function() {
+    this.root = null;
+    this.size = 0;
+    this.comparatorFn = undefined;
 };
 
 

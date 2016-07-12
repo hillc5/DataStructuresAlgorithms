@@ -11,16 +11,24 @@ function PriorityQueue(values, comparatorFn) {
     });
 }
 
-PriorityQueue.prototype.push = function(value) {
+PriorityQueue.prototype.add = function(value) {
     this.tree.addNode(value);    
 };
 
-PriorityQueue.prototype.pop = function() {
+PriorityQueue.prototype.poll = function() {
     return this.tree.removeSmallestNode().value;
+};
+
+PriorityQueue.prototype.peek = function() {
+    return this.tree.getSmallestValue();
 };
 
 PriorityQueue.prototype.toArray = function() {
     return this.tree.valuesInOrder();
+};
+
+PriorityQueue.prototype.clear = function() {
+    this.tree.removeAll();
 };
 
 export default PriorityQueue;
