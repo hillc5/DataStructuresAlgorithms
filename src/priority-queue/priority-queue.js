@@ -16,7 +16,7 @@ PriorityQueue.prototype.add = function(value) {
 };
 
 PriorityQueue.prototype.remove = function(value) {
-    return this.tree.removeNode(value) ? true : false;
+    return !!this.tree.removeNode(value);
 };
 
 PriorityQueue.prototype.poll = function() {
