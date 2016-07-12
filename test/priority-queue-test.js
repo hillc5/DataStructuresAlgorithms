@@ -22,6 +22,24 @@ test(`${MODULE} - add should add a value in the correct order when a comparator 
     t.end();
 });
 
+test(`${MODULE} - remove should return true when successful`, t => {
+    let pQueue = new PriorityQueue([ 1, -1, 2, -42, 23 ]);
+
+    t.equal(pQueue.size, 5);
+    t.equal(pQueue.remove(-1), true);
+    t.equal(pQueue.size, 4);
+    t.end();
+});
+
+test(`${MODULE} - remove should return false when unsuccessful`, t => {
+    let pQueue = new PriorityQueue([ 1, -1, 2, -42, 23 ]);
+
+    t.equal(pQueue.size, 5);
+    t.equal(pQueue.remove(-12), false);
+    t.equal(pQueue.size, 5);
+    t.end();
+});
+
 test(`${MODULE} - size should be accurate`, t => {
     let pQueue = new PriorityQueue(1);
     t.equal(pQueue.size, 1);
