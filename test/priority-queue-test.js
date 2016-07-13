@@ -3,6 +3,28 @@ import PriorityQueue from '../src/priority-queue/priority-queue';
 
 const MODULE = 'PRIORITY_QUEUE';
 
+test(`${MODULE} - constructor should create an empty priority Queue when no value is given`, t => {
+    let pQueue = new PriorityQueue();
+    t.equal(pQueue.size, 0);
+    t.equal(pQueue.peek(), null);
+    t.end();
+});
+
+test(`${MODULE} - constructor should create a queue with one element if a single value is provided`, t => {
+    let value = 'Single Value',
+        pQueue = new PriorityQueue(value);
+    t.equal(pQueue.size, 1);
+    t.equal(pQueue.peek(), value);
+    t.end();
+});
+
+test(`${MODULE} - constructor should create a queue out of an array`, t => {
+    let pQueue = new PriorityQueue([ 5, 10, -5, -10, 0 ]);
+    t.equal(pQueue.size, 5);
+    t.equal(pQueue.peek(), -10);
+    t.end();
+});
+
 test(`${MODULE} - add should add a value in the correct order to the queue`, t => {
     let pQueue = new PriorityQueue([ 1, 3, 5 ]);
     pQueue.add(-1);
@@ -99,7 +121,6 @@ test(`${MODULE} - peek should return the next value without removing it`, t => {
 
 test(`${MODULE} - clear should remove all elements from the queue`, t => {
     let pQueue = new PriorityQueue([ 22, 42, 23, 1, -5 ]);
-
     t.deepEqual(pQueue.toArray(), [ -5, 1, 22, 23, 42 ]);
     pQueue.clear();
     t.deepEqual(pQueue.toArray(), []);

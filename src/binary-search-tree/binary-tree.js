@@ -61,22 +61,17 @@ function isGreaterThan(val1, val2, comparator) {
  * the first value is less than the second value, 1 if the first value
  * is greater than the second value, 0 if they are considered equal.
  *
- * @param rootVal
+ * @param initial
  * @param comparatorFn
  * @constructor
  */
-function BSTree(rootVal, comparatorFn) {
+function BSTree(initial, comparatorFn) {
     this.root = null;
     this.comparatorFn = comparatorFn;
     this.size = 0;
 
-    if (rootVal) {
-        let values = [];
-        if (typeof rootVal[Symbol.iterator] === 'function') {
-            values = [ ...rootVal ];
-        } else {
-            values.push(rootVal);
-        }
+    if (initial) {
+        let values = [].concat(initial);
 
         values.forEach(val => {
             this.addNode(val);
@@ -110,6 +105,20 @@ BSTree.prototype.valuesInOrder = function() {
             result = result.concat(getValuesInOrder(node.left));
             result.push(node.value);
             result = result.concat(getValuesInOrder(node.right));
+        }
+        return result;
+    }
+};
+
+BSTree.prototype.valuesInReverseOrder = function() {
+    return getReverseOrder(this.root);
+
+    function getReverseOrder(node) {
+        let result = [];
+        if (node) {
+            result = result.concat(getReverseOrder(node.right));
+            result.push(node.value);
+            result = result.concat(getReverseOrder(node.left));
         }
         return result;
     }

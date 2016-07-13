@@ -367,6 +367,15 @@ test(`${MODULE} - valuesInOrder should return values with an in order traversal`
     t.end();
 });
 
+test(`${MODULE} - valuesInReverseOrder should return all values in reverse order`, t => {
+    let tree = new BSTree([ 20, 5, 22, 21, 24, 23, 25 ]),
+        values = tree.valuesInReverseOrder();
+
+    const expected = [ 5, 20, 21, 22, 23, 24, 25 ].reverse();
+    t.deepEqual(values, expected);
+    t.end();
+});
+
 test(`${MODULE} - getSmallestValue should return the smallest value without affecting the tree`, t => {
     let tree = new BSTree([ 1, 3, 5, 7, -1 ]);
     t.equal(tree.getSmallestValue(), -1);
