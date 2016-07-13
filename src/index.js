@@ -1,4 +1,4 @@
-import BSTree from './binary-search-tree/binary-tree';
+import BSTree from './data_structures/binary-search-tree/binary-tree';
 
 let values = [];
 
