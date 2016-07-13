@@ -179,7 +179,7 @@ BSTree.prototype.removeNode = function(value) {
             let nextChildDirection = child.left ? child.LEFT : child.RIGHT;
             parentRef[childDirection] = child[nextChildDirection];
         }
-        this.size --;
+        this.size--;
         return child;
     }
 
