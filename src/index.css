@@ -1,0 +1,12 @@
+section.controls {
+    background-color: slategray;
+}
+
+section.canvas {
+    display: flex;
+    justify-content: center;
+}
+
+canvas {
+    border: 1px solid slategray;
+}

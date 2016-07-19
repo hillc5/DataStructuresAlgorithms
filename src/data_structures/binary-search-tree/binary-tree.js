@@ -237,6 +237,39 @@ BSTree.prototype.getSmallestValue = function(treeNode = this.root) {
     return null;
 };
 
+/**
+ * Returns the largest value in the given tree, null if the
+ * tree is empty
+ *
+ * @param treeNode
+ * @returns {*}
+ */
+BSTree.prototype.getLargestValue = function(treeNode = this.root) {
+    if (treeNode) {
+        if (treeNode.right === null) {
+            return treeNode.value;
+        }
+        return this.getLargestValue(treeNode.right);
+    }
+    return null;
+};
+
+/**
+ * Returns the height of the given treeNode
+ *
+ * @param treeNode
+ * @returns {number}
+ */
+BSTree.prototype.height = function(treeNode = this.root) {
+    if (treeNode === null) {
+        return 0;
+    }
+    let leftHeight = this.height(treeNode.left),
+        rightHeight = this.height(treeNode.right);
+
+    return 1 + Math.max(leftHeight, rightHeight);
+};
+
 BSTree.prototype.removeAll = function() {
     this.root = null;
     this.size = 0;

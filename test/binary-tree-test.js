@@ -389,6 +389,18 @@ test(`${MODULE} - getSmallestValue should return null if the tree is empty`, t =
     t.end();
 });
 
+test(`${MODULE} - getLargestValue should return the largest value without affecting the tree`, t => {
+    let tree = new BSTree([ 1, 3, 5, 7, 22, 23, 0, 42 ]);
+    t.equal(tree.getLargestValue(), 42);
+    t.end();
+});
+
+test(`${MODULE} - getLargestValue should return null if the tree is empty`, t => {
+    let tree = new BSTree();
+    t.equal(tree.getLargestValue(), null);
+    t.end();
+});
+
 test(`${MODULE} - comparatorFn should work when specified`, t => {
     const largestFirst = (val1, val2) => (val1 > val2) ? -1 : (val1 < val2) ? 1 : 0;
 
@@ -396,6 +408,24 @@ test(`${MODULE} - comparatorFn should work when specified`, t => {
     t.equal(tree.comparatorFn, largestFirst);
     let values = tree.valuesInOrder();
     t.deepEqual(values, [ 45, 20, 3, 1, -1, -6]);
+    t.end();
+});
+
+test(`${MODULE} - height should return 0 for an empty tree`, t => {
+    let tree = new BSTree();
+    t.equal(tree.height(), 0);
+    t.end();
+});
+
+test(`${MODULE} - height should return the largest height of an unbalanced tree`, t => {
+    let tree = new BSTree([ 1, 3, 7, -1, 9, 12 ] );
+    t.equal(tree.height(), 5);
+    t.end();
+});
+
+test(`${MODULE} - height should return the correct height for a balanced tree`, t => {
+    let tree = new BSTree([ 0, 1, -1, 3, -3, 5, -5 ]);
+    t.equal(tree.height(), 4);
     t.end();
 });
 

@@ -28,5 +28,8 @@
     "faucet": "0.0.1",
     "tape": "^4.6.0",
     "webpack": "^1.13.1"
+  },
+  "dependencies": {
+    "rx": "^4.1.0"
   }
 }
