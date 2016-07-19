@@ -1,5 +1,5 @@
 import test from 'tape';
-import PriorityQueue from '../src/data_structures/priority-queue/priority-queue';
+import PriorityQueue from '../../src/data-structures/priority-queue/priority-queue';
 
 const MODULE = 'PRIORITY_QUEUE';
 

@@ -1,5 +1,5 @@
 import test from 'tape';
-import BSTree from '../src/data_structures/binary-search-tree/binary-tree';
+import BSTree from '../../src/data-structures/binary-search-tree/binary-tree';
 
 const MODULE = 'BINARY_SEARCH_TREE';
 
