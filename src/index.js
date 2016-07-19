@@ -16,7 +16,9 @@ let canvas = document.getElementById('display'),
     context = canvas.getContext('2d');
 
 drawRects(context);
-drawTriangles(context);
+drawTriangles(context, 'blue');
+smileyFace(context);
+drawCircles(context, 10);
 
 function drawRects(context) {
     context.fillStyle = "rgb(200, 0, 0)";
@@ -26,9 +28,55 @@ function drawRects(context) {
     context.fillRect(30, 30, 50, 50);
 }
 
-function drawTriangles(context) {
+function drawTriangles(context, color) {
     context.beginPath();
+    context.moveTo(100, 50);
+    context.lineTo(125, 75);
+    context.lineTo(125, 25);
+    context.fillStyle = color;
+    context.fill();
 }
+
+function smileyFace(context) {
+    context.beginPath();
+    context.arc(75, 75, 50, 0, Math.PI * 2, true);
+    context.moveTo(110, 75);
+    context.arc(75, 75, 35, 0, Math.PI, false);
+    context.moveTo(65, 65);
+    context.arc(60, 65, 5, 0, Math.PI * 2, true);
+    context.moveTo(95, 65);
+    context.arc(90, 65, 5, 0, Math.PI * 2, true);
+    context.stroke();
+}
+
+function drawCircles(context, numCircles) {
+    let maxRadius = 200,
+        center = 400;
+    for (let i = 0; i < numCircles; i++) {
+        let radius = maxRadius - (i * (maxRadius / numCircles));
+        placeCircle(context, radius, center);
+    }
+
+}
+
+function placeCircle(context, radius, center) {
+    context.beginPath();
+    context.moveTo(center + radius, center);
+    context.arc(center, center, radius, 0, Math.PI * 2, true);
+    context.stroke();
+}
+
+
+let mouseMoves = Observable.fromEvent(canvas, 'mousemove')
+    .map(e => {
+        return {
+            x: e.offsetX,
+            y: e.offsetY
+        }
+    });
+
+mouseMoves.subscribe(move => { console.log(move.x, move.y) });
+
 
 // let animate = Observable.range(1, 2)
 //     .map(() => {
