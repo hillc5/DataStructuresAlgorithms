@@ -39,3 +39,13 @@ test(`${MODULE} - should utilized a comparator if supplied`, t => {
     t.deepEqual(sorted, expected);
     t.end();
 });
+
+test(`${MODULE} - should leave the initial array unchanged`, t => {
+    let elements = [ 5, 4, 3, 2, 1],
+        sorted = bubbleSort(elements);
+
+    t.notDeepEqual(sorted, elements);
+    t.deepEqual(sorted, [ 1, 2, 3, 4, 5 ]);
+    t.deepEqual(elements, [ 5, 4, 3, 2, 1 ]);
+    t.end();
+});
