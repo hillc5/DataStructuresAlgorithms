@@ -14,7 +14,7 @@ export default function bubbleSort(elements, comparatorFn) {
                 secondVal = copy[i + 1];
 
             if (greaterThan(firstVal, secondVal, comparatorFn)) {
-                swap(i, copy);
+                swap(i, i + 1, copy);
                 swaps = true;
             }
         }

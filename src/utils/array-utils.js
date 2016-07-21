@@ -1,12 +1,12 @@
-export function insertElement(arr, insertIndex, element, lastIndex) {
+export function insertElement(arr, insertIndex, element, lastIndex = arr.length) {
     for (let i = lastIndex; i > insertIndex; i--) {
         arr[i] = arr[i - 1];
     }
     arr[insertIndex] = element;
 }
 
-export function swap(index, array) {
-    let temp = array[index];
-    array[index] = array[index + 1];
-    array[index + 1] = temp;
+export function swap(firstIndex, secondIndex, array) {
+    let temp = array[firstIndex];
+    array[firstIndex] = array[secondIndex];
+    array[secondIndex] = temp;
 }
