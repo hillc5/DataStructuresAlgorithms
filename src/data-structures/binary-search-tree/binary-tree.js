@@ -43,10 +43,10 @@ function getChangeRef(context, value, changeType) {
     };
 
     function isReference(node, changeType) {
-        let addTest = node === null,
-            removeTest = node === null || node.value === value;
+        let isAddReference = node === null,
+            isRemoveReference = node === null || node.value === value;
 
-        return changeType === ADD ? addTest : removeTest
+        return changeType === ADD ? isAddReference : isRemoveReference
     }
 }
 
