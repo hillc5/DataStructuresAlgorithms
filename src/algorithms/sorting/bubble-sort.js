@@ -1,3 +1,6 @@
+import { swap } from '../../utils/array-utils';
+import { greaterThan } from '../../utils/compare-utils';
+
 export default function bubbleSort(elements, comparatorFn) {
     let copy = [ ...elements ],
         endIndex = 1,
@@ -20,14 +23,4 @@ export default function bubbleSort(elements, comparatorFn) {
     } while (swaps === true);
 
     return copy;
-}
-
-function swap(index, array) {
-    let temp = array[index];
-    array[index] = array[index + 1];
-    array[index + 1] = temp;
-}
-
-function greaterThan(first, second, comparatorFn) {
-    return comparatorFn ? comparatorFn(first, second) > 0 : first - second > 0;
 }

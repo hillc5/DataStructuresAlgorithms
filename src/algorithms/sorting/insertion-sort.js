@@ -1,3 +1,6 @@
+import { insertElement } from '../../utils/array-utils';
+import { lessThan } from '../../utils/compare-utils';
+
 export default function insertionSort(elements, comparatorFn) {
     let copy = [ ...elements ],
         copyLength = copy.length;
@@ -18,15 +21,4 @@ export default function insertionSort(elements, comparatorFn) {
     }
 
     return copy;
-}
-
-function insertElement(arr, insertIndex, element, lastIndex) {
-    for (let i = lastIndex; i > insertIndex; i--) {
-        arr[i] = arr[i - 1];
-    }
-    arr[insertIndex] = element;
-}
-
-function lessThan(el1, el2, comparatorFn) {
-    return comparatorFn ? comparatorFn(el1, el2) < 0 : (el1 - el2 < 0);
 }

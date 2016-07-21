@@ -1,3 +1,5 @@
+import { greaterThan } from '../../utils/compare-utils';
+
 const ADD = 'add';
 const REMOVE = 'remove';
 const ROOT = 'root';
@@ -26,7 +28,7 @@ function getChangeRef(context, value, changeType) {
 
     while(referenceNotFound) {
         parent = child;
-        childDirection = isGreaterThan(child.value, value, context.comparatorFn) ? child.LEFT : child.RIGHT;
+        childDirection = greaterThan(child.value, value, context.comparatorFn) ? child.LEFT : child.RIGHT;
         child = parent[childDirection];
         referenceNotFound = !isReference(child, changeType);
     }
@@ -46,10 +48,6 @@ function getChangeRef(context, value, changeType) {
 
         return changeType === ADD ? addTest : removeTest
     }
-}
-
-function isGreaterThan(val1, val2, comparator) {
-    return comparator ? comparator(val1, val2) > 0 : val1 > val2;
 }
 
 /**
