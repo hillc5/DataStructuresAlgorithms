@@ -14,19 +14,17 @@ export default function insertionSort(elements, comparatorFn) {
                 placed = true;
             }
         }
-        copy = insertElement(copy, insertIndex, element, i);
+        insertElement(copy, insertIndex, element, i);
     }
 
     return copy;
 }
 
 function insertElement(arr, insertIndex, element, lastIndex) {
-    let result = [ ...arr ];
     for (let i = lastIndex; i > insertIndex; i--) {
-        result[i] = result[i - 1];
+        arr[i] = arr[i - 1];
     }
-    result[insertIndex] = element;
-    return result;
+    arr[insertIndex] = element;
 }
 
 function lessThan(el1, el2, comparatorFn) {
