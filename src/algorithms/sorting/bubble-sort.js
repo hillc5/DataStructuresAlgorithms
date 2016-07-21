@@ -1,24 +1,31 @@
 export default function bubbleSort(elements, comparatorFn) {
-    let length = elements.length - 1,
-        copy = [ ...elements ],
+    let copy = [ ...elements ],
+        endIndex = 1,
         swaps;
     do {
+        let length = elements.length - endIndex;
         swaps = false;
+
         for (let i = 0; i < length; i++) {
             let firstVal = copy[i],
-                secondVal = copy[i + 1],
-                tempVal;
+                secondVal = copy[i + 1];
 
             if (greaterThan(firstVal, secondVal, comparatorFn)) {
-                tempVal = firstVal;
-                copy[i] = secondVal;
-                copy[i + 1] = tempVal;
+                swap(i, copy);
                 swaps = true;
             }
         }
+
+        endIndex++;
     } while (swaps === true);
 
     return copy;
+}
+
+function swap(index, array) {
+    let temp = array[index];
+    array[index] = array[index + 1];
+    array[index + 1] = temp;
 }
 
 function greaterThan(first, second, comparatorFn) {

@@ -1,5 +1,5 @@
 import { BSTree, PriorityQueue } from './data-structures/data-structures';
-import { bubbleSort } from './algorithms/algorithms';
+import { bubbleSort, insertionSort } from './algorithms/algorithms';
 import { Observable } from 'rx';
 
 let values = [];
@@ -116,6 +116,6 @@ mouseMoves.subscribe(move => { console.log(move.x, move.y) });
 
 
 let elements = [ 5, 1, 4, 2, 8 ],
-    sorted = bubbleSort(elements);
+    sorted = insertionSort(elements);
 
 console.log(sorted, elements);
