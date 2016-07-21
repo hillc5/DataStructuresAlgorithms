@@ -30,6 +30,14 @@ test(`${MODULE} - should leave an empty array empty`, t => {
     t.end();
 });
 
+test(`${MODULE} - should sort an array of length 1`, t => {
+    let elements = [ 1 ],
+        sorted = bubbleSort(elements);
+
+    t.deepEqual(sorted, elements);
+    t.end();
+});
+
 test(`${MODULE} - should utilized a comparator if supplied`, t => {
     let elements = [ 1, 2, 3, 4, 5, 6 ],
         comparator = (val1, val2) => val1 - val2 > 0 ? -1 : val1 - val2 < 0 ? 1 : 0,
