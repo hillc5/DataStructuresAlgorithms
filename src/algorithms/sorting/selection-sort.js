@@ -16,6 +16,7 @@ export default function selectionSort(elements, comparatorFn) {
 function getIndexForSmallest(elements, startIndex, comparatorFn) {
     let smallest = elements[startIndex],
         index = startIndex;
+
     for (let i = startIndex; i < elements.length; i++) {
         let value = elements[i];
         if (lessThan(value, smallest, comparatorFn)) {
