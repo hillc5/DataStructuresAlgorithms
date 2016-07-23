@@ -95,17 +95,23 @@ BSTree.prototype.contains = function(value) {
  * @returns {Array}
  */
 BSTree.prototype.valuesInOrder = function() {
-    return getValuesInOrder(this.root);
-    
-    function getValuesInOrder(node) {
-        let result = [];
-        if (node) {
-            result = result.concat(getValuesInOrder(node.left));
-            result.push(node.value);
-            result = result.concat(getValuesInOrder(node.right));
+    let parentNodes = [],
+        current = this.root,
+        result = [];
+
+    while (current != null || parentNodes.length) {
+        if (current != null) {
+            parentNodes.push(current);
+            current = current.left;
+        } else {
+            let parent = parentNodes.pop();
+            result.push(parent.value);
+            current = parent.right;
         }
-        return result;
     }
+
+    return result;
+
 };
 
 BSTree.prototype.valuesInReverseOrder = function() {

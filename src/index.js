@@ -1,5 +1,7 @@
 import { BSTree, PriorityQueue } from './data-structures/data-structures';
-import { bubbleSort, insertionSort, mergeSort } from './algorithms/algorithms';
+import { binaryTreeSort, bubbleSort, insertionSort, selectionSort, mergeSort } from './algorithms/algorithms';
+import perfUtil from './utils/performance-utils';
+
 import { Observable } from 'rx';
 
 let values = [];
@@ -78,6 +80,9 @@ let mouseMoves = Observable.fromEvent(canvas, 'mousemove')
 
 mouseMoves.subscribe(move => { console.log(move.x, move.y) });
 
+let tree = new BSTree([ 3, 1, 5, 2, 6 ]);
+console.log(tree.valuesInOrder());
+
 
 // let animate = Observable.range(1, 2)
 //     .map(() => {
@@ -115,10 +120,11 @@ mouseMoves.subscribe(move => { console.log(move.x, move.y) });
 // });
 
 
-let elements = new Array(100000).fill(0).map(num => Math.floor(Math.random() * 6 + 1)),
-    comparator = (val1, val2) => val1 - val2 > 0 ? -1 : val1 - val2 < 0 ? 1 : 0,
-    sorted;
+let comparator = (val1, val2) => val1 - val2 > 0 ? -1 : val1 - val2 < 0 ? 1 : 0,
+    perf = perfUtil(1e4, comparator);
 
-let start = performance.now();
-sorted = insertionSort(elements, comparator);
-console.log(performance.now() - start);
+console.log(`Bubble sort: ${perf.measure(bubbleSort)} ms`);
+console.log(`Selection sort: ${perf.measure(selectionSort)} ms`);
+console.log(`Insertion sort: ${perf.measure(insertionSort)} ms`);
+console.log(`Merge sort: ${perf.measure(mergeSort)} ms`);
+console.log(`Binary Tree sort: ${perf.measure(binaryTreeSort)} ms`);
