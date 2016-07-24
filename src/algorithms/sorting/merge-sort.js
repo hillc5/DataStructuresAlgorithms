@@ -1,12 +1,17 @@
 import { lessThan } from '../../utils/compare-utils';
+import builder from '../../utils/sort-builder';
 
-export default function mergeSort(elements, comparatorFn) {
+function sortFunction() {
+    return merge(this.elements, this.comparatorFn);
+}
+
+function merge(elements, comparatorFn) {
     if (elements.length < 2) {
         return elements;
     }
     let splitIndex = elements.length / 2,
-        arr1 = mergeSort(elements.slice(0, splitIndex), comparatorFn),
-        arr2 = mergeSort(elements.slice(splitIndex), comparatorFn);
+        arr1 = merge(elements.slice(0, splitIndex), comparatorFn),
+        arr2 = merge(elements.slice(splitIndex), comparatorFn);
 
     return combineSortedArrays(arr1, arr2, comparatorFn);
 }
@@ -36,4 +41,8 @@ function combineSortedArrays(arr1, arr2, comparatorFn) {
     }
 
     return result;
+}
+
+export default function mergeSort(elements, comparatorFn) {
+    return builder(elements, comparatorFn, sortFunction);
 }

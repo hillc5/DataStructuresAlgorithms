@@ -14,11 +14,13 @@ function getElements(num) {
 
 let perfUtil = (function() {
     const prototype = {
-        measure(alg1) {
+        measure(alg) {
             let elements = getElements(this.numElements),
+                algObj = alg(elements, this.comparator),
                 start = performance.now();
-                alg1(elements, this.comparator);
-                return performance.now() - start;
+
+            algObj.run();
+            return performance.now() - start;
 
         },
         setComparator(comparator) {

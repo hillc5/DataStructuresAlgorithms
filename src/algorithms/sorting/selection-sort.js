@@ -1,16 +1,16 @@
 import { swap } from '../../utils/array-utils';
 import { lessThan } from '../../utils/compare-utils';
+import builder from '../../utils/sort-builder';
 
-export default function selectionSort(elements, comparatorFn) {
-    let copy = [ ...elements ],
-        selectionLength = copy.length - 1;
+function sortFunction() {
+    let selectionLength = this.elements.length - 1;
 
     for(let i = 0; i < selectionLength; i++) {
-        let smallestIndex = getIndexForSmallest(copy, i, comparatorFn);
-        swap(i, smallestIndex, copy);
+        let smallestIndex = getIndexForSmallest(this.elements, i, this.comparatorFn);
+        swap(i, smallestIndex, this.elements);
     }
 
-    return copy
+    return this.elements
 }
 
 function getIndexForSmallest(elements, startIndex, comparatorFn) {
@@ -26,3 +26,7 @@ function getIndexForSmallest(elements, startIndex, comparatorFn) {
     }
     return index;
 }
+
+export default function selectionSort(elements, comparatorFn) {
+    return builder(elements, comparatorFn, sortFunction);
+};

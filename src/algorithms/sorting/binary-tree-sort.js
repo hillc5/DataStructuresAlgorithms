@@ -1,6 +1,12 @@
 import { BSTree } from '../../data-structures/data-structures';
+import builder from '../../utils/sort-builder';
 
-export default function binaryTreeSort(elements, comparator) {
-    let tree = new BSTree(elements, comparator);
+function sortFunction() {
+    let tree = new BSTree(this.elements, this.comparatorFn);
     return tree.valuesInOrder();
 }
+
+export default function binaryTreeSort(elements, comparator) {
+    return builder(elements, comparator, sortFunction);
+}
+
