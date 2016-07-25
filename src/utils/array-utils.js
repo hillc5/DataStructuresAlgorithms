@@ -10,3 +10,10 @@ export function swap(firstIndex, secondIndex, array) {
     array[firstIndex] = array[secondIndex];
     array[secondIndex] = temp;
 }
+
+
+export function concatFromIndex(arr1, arr2, index) {
+    for (index; index < arr2.length; index++) {
+        arr1.push(arr2[index]);
+    }
+}

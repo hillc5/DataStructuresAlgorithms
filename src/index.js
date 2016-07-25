@@ -131,7 +131,5 @@ let mergeSortRun = perf.runMeasureSuite(mergeSort);
 console.log(mergeSortRun);
 let shellSortRun = perf.runMeasureSuite(shellSort);
 console.log(shellSortRun);
-perf.setUnits('s');
-let insertionSortRun = perf.runMeasureSuite(insertionSort);
-console.log(insertionSortRun);
+
 
