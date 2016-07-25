@@ -125,60 +125,13 @@ shell.run();
 
 
 let comparator = (val1, val2) => val1 - val2 > 0 ? -1 : val1 - val2 < 0 ? 1 : 0,
-    perf = perfUtil(1e1, comparator);
+    perf = perfUtil(1e1, comparator, 'ms');
 
-console.log('10 ELEMENTS');
+let mergeSortRun = perf.runMeasureSuite(mergeSort);
+console.log(mergeSortRun);
+let shellSortRun = perf.runMeasureSuite(shellSort);
+console.log(shellSortRun);
+perf.setUnits('s');
+let insertionSortRun = perf.runMeasureSuite(insertionSort);
+console.log(insertionSortRun);
 
-console.log(`Bubble sort: ${perf.measure(bubbleSort)} ms`);
-console.log(`Selection sort: ${perf.measure(selectionSort)} ms`);
-console.log(`Insertion sort: ${perf.measure(insertionSort)} ms`);
-console.log(`Shell sort (no gap pre set): ${perf.measure(shellSort)} ms`);
-console.log(`Merge sort: ${perf.measure(mergeSort)} ms`);
-console.log(`Binary Tree sort: ${perf.measure(binaryTreeSort)} ms`);
-
-perf = perfUtil(1e2, comparator);
-
-console.log('100 ELEMENTS');
-
-console.log(`Bubble sort: ${perf.measure(bubbleSort)} ms`);
-console.log(`Selection sort: ${perf.measure(selectionSort)} ms`);
-console.log(`Insertion sort: ${perf.measure(insertionSort)} ms`);
-console.log(`Shell sort (no gap pre set): ${perf.measure(shellSort)} ms`);
-console.log(`Merge sort: ${perf.measure(mergeSort)} ms`);
-console.log(`Binary Tree sort: ${perf.measure(binaryTreeSort)} ms`);
-
-perf = perfUtil(1e3, comparator);
-
-console.log('1000 ELEMENTS');
-
-console.log(`Bubble sort: ${perf.measure(bubbleSort)} ms`);
-console.log(`Selection sort: ${perf.measure(selectionSort)} ms`);
-console.log(`Insertion sort: ${perf.measure(insertionSort)} ms`);
-console.log(`Shell sort (no gap pre set): ${perf.measure(shellSort)} ms`);
-console.log(`Merge sort: ${perf.measure(mergeSort)} ms`);
-console.log(`Binary Tree sort: ${perf.measure(binaryTreeSort)} ms`);
-
-perf = perfUtil(1e4, comparator);
-
-console.log('10000 ELEMENTS');
-
-console.log(`Bubble sort: ${perf.measure(bubbleSort)} ms`);
-console.log(`Selection sort: ${perf.measure(selectionSort)} ms`);
-console.log(`Insertion sort: ${perf.measure(insertionSort)} ms`);
-console.log(`Shell sort (no gap pre set): ${perf.measure(shellSort)} ms`);
-console.log(`Merge sort: ${perf.measure(mergeSort)} ms`);
-console.log(`Binary Tree sort: ${perf.measure(binaryTreeSort)} ms`);
-
-perf = perfUtil(1e3, comparator);
-
-console.log('100000 ELEMENTS');
-
-console.log(`Bubble sort: ${perf.measure(bubbleSort)} ms`);
-console.log(`Selection sort: ${perf.measure(selectionSort)} ms`);
-console.log(`Insertion sort: ${perf.measure(insertionSort)} ms`);
-console.log(`Shell sort (no gap pre set): ${perf.measure(shellSort)} ms`);
-console.log(`Merge sort: ${perf.measure(mergeSort)} ms`);
-console.log(`Binary Tree sort: ${perf.measure(binaryTreeSort)} ms`);
-
-perf = perfUtil(1e8, comparator);
-console.log(`Shell sort (no gap pre set): ${perf.measure(shellSort)} ms`);
