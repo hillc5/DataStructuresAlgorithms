@@ -11,9 +11,9 @@ export function swap(firstIndex, secondIndex, array) {
     array[secondIndex] = temp;
 }
 
-
 export function concatFromIndex(arr1, arr2, index) {
-    for (index; index < arr2.length; index++) {
+    let length = arr2.length;
+    for (index; index < length; index++) {
         arr1.push(arr2[index]);
     }
 }

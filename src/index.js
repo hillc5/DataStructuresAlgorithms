@@ -118,7 +118,6 @@ console.log(tree.valuesInOrder());
 //         context.fillRect(square.x, square.y, square.size, square.size);
 //     });
 // });
-/*
 
 let elements = [2, 5, 1, -1, 3, -10];
 let shell = mergeSort(elements);
@@ -132,7 +131,6 @@ let mergeSortRun = perf.runMeasureSuite(mergeSort);
 console.log(mergeSortRun);
 let shellSortRun = perf.runMeasureSuite(shellSort);
 console.log(shellSortRun);
-*/
 
 
 let list = new LinkedList([1, 2, 3]);

@@ -1,5 +1,5 @@
 function createList(list, ...elements) {
-    if (!list.head) {
+    if (list.isEmpty()) {
         list.head = new ListNode(elements.shift());
     }
 
@@ -33,14 +33,15 @@ export default function LinkedList(elements = []) {
  */
 LinkedList.prototype.append = function(element) {
     if (element) {
-        if (!this.head) {
-            this.head = new ListNode(element);
+        let node = new ListNode(element);
+        if (this.isEmpty()) {
+            this.head = node;
         } else {
             let current = this.head;
             while (current.next) {
                 current = current.next;
             }
-            current.next = new ListNode(element);
+            current.next = node
         }
         this.size++;
     }
@@ -88,8 +89,10 @@ LinkedList.prototype.insert = function(index, element) {
  * @param index
  */
 LinkedList.prototype.removeAt = function(index) {
+    let result = null;
     if (index >= 0 && index < this.size) {
         if (index === 0) {
+            result = this.head.value;
             this.head = this.head.next;
         } else {
             let position = 0,
@@ -99,10 +102,40 @@ LinkedList.prototype.removeAt = function(index) {
                 current = current.next;
                 position++;
             }
+            result = current.next.value;
             current.next = current.next.next;
         }
         this.size--;
     }
+    return result;
+};
+
+/**
+ * Returns the index of the given element in the list,
+ * or -1 if it is not found.
+ *
+ * @param element
+ * @returns {number}
+ */
+LinkedList.prototype.indexOf = function(element) {
+    let index = 0,
+        current = this.head;
+
+    while(current && current.value != element) {
+        index++;
+        current = current.next;
+    }
+
+    return current ? index : -1;
+};
+
+/**
+ * Returns true if the list is empty, false otherwise
+ *
+ * @returns {boolean}
+ */
+LinkedList.prototype.isEmpty = function() {
+    return !this.head;
 };
 
 /**
@@ -112,7 +145,7 @@ LinkedList.prototype.removeAt = function(index) {
  * @param fn
  * @param context
  */
-LinkedList.prototype.forEach = function(fn, context) {
+LinkedList.prototype.forEach = function(fn, context = this) {
     let current = this.head,
         index = 0;
     while(current) {

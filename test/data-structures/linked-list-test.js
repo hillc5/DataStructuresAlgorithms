@@ -134,56 +134,121 @@ test(`${MODULE} - forEach should return the correct index for each value to the 
     t.end();
 });
 
-test(`${MODULE} - removeAt should not change the list if the index is outside of the list`, t => {
-    let list = new LinkedList([ 1, 2 ]);
+test(`${MODULE} - removeAt should not change the list and return null if the index is outside of the list`, t => {
+    let list = new LinkedList([ 1, 2 ]),
+        value;
 
     t.equal(list.size, 2);
-    list.removeAt(-1);
+    value = list.removeAt(-1);
     t.equal(list.size, 2);
+    t.equal(value, null);
     t.equal(list.head.value, 1);
     t.equal(list.head.next.value, 2);
     t.end();
 });
 
-test(`${MODULE} - removeAt should remove the first element of a list if index = 0`, t => {
-    let list = new LinkedList([ 1, 2 ]);
+test(`${MODULE} - removeAt should remove and return the first element of a list if index = 0`, t => {
+    let list = new LinkedList([ 1, 2 ]),
+        value;
 
     t.equal(list.size, 2);
-    list.removeAt(0);
+    value = list.removeAt(0);
     t.equal(list.size, 1);
+    t.equal(value, 1);
     t.equal(list.head.value, 2);
     t.end();
 });
 
-test(`${MODULE} - removeAt should remove the only element of a size 1 list if index = 0`, t => {
-    let list = new LinkedList([ 1 ]);
+test(`${MODULE} - removeAt should remove and return the only element of a size 1 list if index = 0`, t => {
+    let list = new LinkedList([ 1 ]),
+        value;
 
     t.equal(list.size, 1);
-    list.removeAt(0);
+    value = list.removeAt(0);
     t.equal(list.size, 0);
+    t.equal(value, 1);
     t.equal(list.head, undefined);
     t.end();
 });
 
-test(`${MODULE} - removeAt should remove in the middle of the list`, t => {
-    let list = new LinkedList([ 1, 42, 2 ]);
+test(`${MODULE} - removeAt should remove and return the value in the middle of the list`, t => {
+    let list = new LinkedList([ 1, 42, 2 ]),
+        value;
 
     t.equal(list.size, 3);
-    list.removeAt(1);
+    value = list.removeAt(1);
     t.equal(list.size, 2);
+    t.equal(value, 42);
     t.equal(list.head.value, 1);
     t.equal(list.head.next.value, 2);
     t.end();
 });
 
-test(`${MODULE} - removeAt should remove at the end of the list`, t => {
-    let list = new LinkedList([ 1, 42, 2 ]);
+test(`${MODULE} - removeAt should remove and return the element at the end of the list`, t => {
+    let list = new LinkedList([ 1, 42, 2 ]),
+        value;
 
     t.equal(list.size, 3);
-    list.removeAt(list.size - 1);
+    value = list.removeAt(list.size - 1);
     t.equal(list.size, 2);
+    t.equal(value, 2);
     t.equal(list.head.value, 1);
     t.equal(list.head.next.value, 42);
     t.equal(list.head.next.next, undefined);
+    t.end();
+});
+
+test(`${MODULE} - indexOf should return -1 for an empty list`, t => {
+    let list = new LinkedList(),
+        idx = list.indexOf(42);
+
+    t.equal(idx, -1);
+    t.end();
+});
+
+test(`${MODULE} - indexOf should return index of 0 for first item in list`, t => {
+    let list = new LinkedList([ 42 ]),
+        idx = list.indexOf(42);
+
+    t.equal(idx, 0);
+    t.end();
+});
+
+test(`${MODULE} - indexOf should return index for element in the middle of the list`, t => {
+    let list = new LinkedList([ 1, 42, 12, -1, 200 ]),
+        idx = list.indexOf(12);
+
+    t.equal(idx, 2);
+    t.end();
+});
+
+
+test(`${MODULE} - indexOf should return index for element in the end of the list`, t => {
+    let list = new LinkedList([ 1, 42, 12, -1, 200 ]),
+        idx = list.indexOf(200);
+
+    t.equal(idx, list.size - 1);
+    t.end();
+});
+
+test(`${MODULE} - indexOf should return -1 for a non-empty list when the element is not found`, t => {
+    let list = new LinkedList([ 1, 42, 12, -1, 200 ]),
+        idx = list.indexOf(420);
+
+    t.equal(idx, -1);
+    t.end();
+});
+
+test(`${MODULE} - isEmpty should return true for an empty list`, t => {
+    let list = new LinkedList();
+
+    t.true(list.isEmpty());
+    t.end();
+});
+
+test(`${MODULE} - isEmpty should return false for a non-empty list`, t => {
+    let list = new LinkedList([ 42 ]);
+
+    t.false(list.isEmpty());
     t.end();
 });

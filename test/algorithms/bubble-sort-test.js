@@ -23,6 +23,17 @@ test(`${MODULE} - should sort an unsorted array`, t => {
     t.end();
 });
 
+test(`${MODULE} - should sort a reversed list`, t => {
+    let elements = [ 200, 150, 100, 50, 0, -50, -100, -150, -200 ],
+        expected = [ -200, -150, -100, -50, 0, 50, 100, 150, 200 ],
+        bSort = bubbleSort(elements),
+        sorted = bSort.run();
+
+    t.deepEqual(sorted, expected);
+    t.notEqual(elements, sorted);
+    t.end();
+});
+
 test(`${MODULE} - should leave an empty array empty`, t => {
     let elements = [],
         bSort = bubbleSort(elements),

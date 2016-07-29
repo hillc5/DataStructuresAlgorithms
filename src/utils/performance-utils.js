@@ -48,7 +48,7 @@ let perfUtil = (function() {
         },
         runMeasureSuite(alg) {
             let results = [];
-            [ 1e1, 1e2, 1e3, 1e4, 1e5 ].forEach(num => {
+            [ 1e1, 1e2, 1e3, 1e4, 1e5, 1e6 ].forEach(num => {
                 let elements = getElements(num),
                     algObj = alg(elements, this.comparator),
                     convertedTime,
