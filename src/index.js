@@ -1,6 +1,6 @@
-import { BSTree, PriorityQueue, LinkedList } from './data-structures/data-structures';
+import { BSTree, MinHeap, PriorityQueue, LinkedList } from './data-structures/data-structures';
 import { binaryTreeSort, bubbleSort, insertionSort, shellSort, selectionSort, mergeSort } from './algorithms/algorithms';
-import perfUtil from './utils/performance-utils';
+import { perfUtil } from './utils/performance-utils';
 
 import { Observable } from 'rx';
 
@@ -134,3 +134,23 @@ console.log(shellSortRun);
 
 
 let list = new LinkedList([1, 2, 3]);
+
+function reverseNum(num) {
+    let result = 0,
+        isNeg = num < 0;
+
+    num = Math.abs(num);
+    while (num > 0) {
+        result = result * 10 + num % 10;
+        num = Math.floor(num / 10);
+    }
+    return isNeg ? -1 * result : result;
+}
+
+console.log(`125 reversed = ${reverseNum(125)}`);
+console.log(`23498234 reversed = ${reverseNum(23498234)}`);
+console.log(`-1234 reversed = ${reverseNum(-1234)}`);
+
+let heap = new MinHeap();
+let items = [ 3, 22, -1, 42, -2, 33, 24 ];
+heap.heapify(items);

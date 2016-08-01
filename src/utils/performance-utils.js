@@ -1,5 +1,3 @@
-import * as A from '../algorithms/algorithms';
-
 const performance = window.performance;
 const UNITS = {
     MS: {
@@ -85,4 +83,4 @@ let perfUtil = (function() {
     }
 }());
 
-export default perfUtil;
+export { perfUtil };
