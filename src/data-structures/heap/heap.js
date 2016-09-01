@@ -57,7 +57,7 @@ function bubbleDown(elIdx, arr, comparatorFn) {
 }
 
 /**
- * Creates a new MinHea with the given array of elements
+ * Creates a new Heap with the given array of elements
  *
  * @param arr
  * @constructor
@@ -69,7 +69,7 @@ export default function Heap(arr = [], comparatorFn) {
 
 /**
  * Pushes a new element onto the Heap while maintaining
- * the minimum heap property.
+ * the minimum heap property determined by the comparatorFn.
  *
  * @param element
  */
@@ -83,8 +83,8 @@ Heap.prototype.insert = function(element) {
 };
 
 /**
- * Removes and returns the minimum value in the
- * Heap
+ * Removes and returns the minimum/maximum value in the
+ * Heap as determined by the comparatorFn
  * @returns {*}
  */
 Heap.prototype.extractMin = function() {
@@ -105,7 +105,7 @@ Heap.prototype.peek = function() {
 
 /**
  * Arranges the given array so that it satisfies the
- * Heap property.
+ * Heap property determined by the comparatorFn.
  *
  * @param arr
  * @returns {*}
