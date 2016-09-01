@@ -1,4 +1,4 @@
-import { BSTree, MinHeap, PriorityQueue, LinkedList } from './data-structures/data-structures';
+import { BSTree, Heap, PriorityQueue, LinkedList } from './data-structures/data-structures';
 import { binaryTreeSort, bubbleSort, insertionSort, shellSort, selectionSort, mergeSort } from './algorithms/algorithms';
 import { perfUtil } from './utils/performance-utils';
 
@@ -151,6 +151,7 @@ console.log(`125 reversed = ${reverseNum(125)}`);
 console.log(`23498234 reversed = ${reverseNum(23498234)}`);
 console.log(`-1234 reversed = ${reverseNum(-1234)}`);
 
-let heap = new MinHeap();
+const largestFirst = (val1, val2) => (val1 > val2) ? -1 : (val1 < val2) ? 1 : 0;
 let items = [ 3, 22, -1, 42, -2, 33, 24 ];
-heap.heapify(items);
+let heap = new Heap(items, largestFirst);
+//heap.heapify(items);

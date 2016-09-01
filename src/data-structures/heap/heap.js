@@ -1,4 +1,5 @@
 import { swap } from '../../utils/array-utils';
+import { lessThan as lt, greaterThan as gt } from '../../utils/compare-utils';
 
 function parentIndex(child) {
     return Math.floor((child - 1) / 2);
@@ -12,10 +13,11 @@ function rightChildIndex(parent) {
     return 2 * parent + 2;
 }
 
-function bubbleUp(elIdx, arr) {
+function bubbleUp(elIdx, arr, comparatorFn) {
     let parentIdx = parentIndex(elIdx);
 
-    while(arr[elIdx] < arr[parentIdx]) {
+    // el < parent -> bubbleUp
+    while(lt(arr[elIdx], arr[parentIdx], comparatorFn)) {
         swap(elIdx, parentIdx, arr);
 
         elIdx = parentIdx;
@@ -23,7 +25,7 @@ function bubbleUp(elIdx, arr) {
     }
 }
 
-function bubbleDown(elIdx, arr) {
+function bubbleDown(elIdx, arr, comparatorFn) {
     let leftChildIdx = leftChildIndex(elIdx),
         rightChildIdx = rightChildIndex(elIdx),
         el = arr[elIdx],
@@ -31,15 +33,20 @@ function bubbleDown(elIdx, arr) {
         rightChild = arr[rightChildIdx],
         swapIdx;
 
-    while(el > leftChild || el > rightChild) {
-        if (el > leftChild && el > rightChild) {
-            swapIdx = leftChild < rightChild ? leftChildIdx : rightChildIdx;
-        } else if (el > leftChild) {
+    // el > leftChild || el > rightChild -> bubble el down
+    while(gt(el, leftChild, comparatorFn) || gt(el, rightChild, comparatorFn)) {
+        if (gt(el, leftChild, comparatorFn) && gt(el, rightChild, comparatorFn)) {
+            // if el > left && el > right -> swap with the smaller of the two
+            swapIdx = lt(leftChild, rightChild, comparatorFn) ? leftChildIdx : rightChildIdx;
+        } else if (gt(el, leftChild, comparatorFn)) {
             swapIdx = leftChildIdx;
-        } else if (el > rightChild) {
+        } else if (gt(el, rightChild, comparatorFn)) {
             swapIdx = rightChildIdx;
         }
         swap(elIdx, swapIdx, arr);
+
+        // Now that we've swapped, continue the bubble down starting at
+        // the index that we just swapped el to.
         elIdx = swapIdx;
         leftChildIdx = leftChildIndex(elIdx);
         rightChildIdx = rightChildIndex(elIdx);
@@ -55,57 +62,58 @@ function bubbleDown(elIdx, arr) {
  * @param arr
  * @constructor
  */
-export default function MinHeap(arr = []) {
-    this.items = this.heapify(arr);
+export default function Heap(arr = [], comparatorFn) {
+    this.items = Heap.heapify(arr, comparatorFn);
+    this.comparatorFn = comparatorFn;
 }
 
 /**
- * Pushes a new element onto the MinHeap while maintaining
+ * Pushes a new element onto the Heap while maintaining
  * the minimum heap property.
  *
  * @param element
  */
-MinHeap.prototype.insert = function(element) {
+Heap.prototype.insert = function(element) {
 
     this.items.push(element);
 
     if (this.items.length > 1) {
-        bubbleUp(this.items.length - 1, this.items);
+        bubbleUp(this.items.length - 1, this.items, this.comparatorFn);
     }
 };
 
 /**
  * Removes and returns the minimum value in the
- * MinHeap
+ * Heap
  * @returns {*}
  */
-MinHeap.prototype.extractMin = function() {
+Heap.prototype.extractMin = function() {
     swap(0, this.items.length - 1, this.items);
     let result = this.items.pop();
-    bubbleDown(0, this.items);
+    bubbleDown(0, this.items, this.comparatorFn);
     return result;
 };
 
 /**
- * Returns the value stored at the head of the MinHeap
+ * Returns the value stored at the head of the Heap
  *
  * @returns {*}
  */
-MinHeap.prototype.peek = function() {
+Heap.prototype.peek = function() {
     return this.items[0];
 };
 
 /**
  * Arranges the given array so that it satisfies the
- * MinHeap property.
+ * Heap property.
  *
  * @param arr
  * @returns {*}
  */
-MinHeap.prototype.heapify = function(arr) {
+Heap.heapify = function(arr, comparatorFn) {
     let startIdx = arr.length - 1;
     while(startIdx > 0) {
-        bubbleUp(startIdx, arr);
+        bubbleUp(startIdx, arr, comparatorFn);
         startIdx -= 1;
     }
     return arr;
