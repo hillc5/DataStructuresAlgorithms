@@ -3,16 +3,20 @@ import { concatFromIndex } from '../../utils/array-utils';
 import builder from '../../utils/sort-builder';
 
 function sortFunction() {
-    return merge(this.elements, this.comparatorFn);
+    if (!this.elements.length) {
+        return [];
+    }
+    return merge(this.elements, 0, this.elements.length - 1, this.comparatorFn);
 }
 
-function merge(elements, comparatorFn) {
-    if (elements.length < 2) {
-        return elements;
+function merge(elements, start, end, comparatorFn) {
+    let length = (end - start) + 1;
+    if (length < 2) {
+        return [ elements[start] ];
     }
-    let splitIndex = elements.length / 2,
-        arr1 = merge(elements.slice(0, splitIndex), comparatorFn),
-        arr2 = merge(elements.slice(splitIndex), comparatorFn);
+    let splitIndex = Math.floor((start + end) / 2),
+        arr1 = merge(elements, start, splitIndex, comparatorFn),
+        arr2 = merge(elements, splitIndex + 1, end, comparatorFn);
 
     return combineSortedArrays(arr1, arr2, comparatorFn);
 }
