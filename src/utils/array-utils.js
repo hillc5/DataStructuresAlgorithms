@@ -1,3 +1,5 @@
+import { greaterThan } from './compare-utils';
+
 export function insertElement(arr, insertIndex, element, lastIndex = arr.length) {
     for (let i = lastIndex; i > insertIndex; i--) {
         arr[i] = arr[i - 1];
@@ -16,4 +18,20 @@ export function concatFromIndex(arr1, arr2, index) {
     for (index; index < length; index++) {
         arr1.push(arr2[index]);
     }
+}
+
+export function verifySorted(elements, comparatorFn) {
+    let result = true;
+    if (elements) {
+        let prev = elements[0];
+        result = elements.every(function(element) {
+            if (greaterThan(prev, element, comparatorFn)) {
+                return false;
+            }
+            prev = element;
+            return true;
+        });
+    }
+
+    return result;
 }

@@ -1,12 +1,12 @@
 import test from 'tape';
 import { Heap } from '../../src/data-structures/data-structures';
 
-const MODULE = 'MIN_HEAP';
+const MODULE = 'HEAP';
 
 test(`${MODULE} - constructor should create a heap out of an array`, t => {
 
     let elements = [ 2, 7, 4, 1, 6 ],
-        expected = [ 1, 2, 4,6, 7 ],
+        expected = [ 1, 2, 4, 7, 6 ],
         heap = new Heap(elements);
 
     t.deepEqual(heap.items, expected);
@@ -22,7 +22,7 @@ test(`${MODULE} - constructor should create an empty heap if no array is passed 
 
 test(`${MODULE} - insert should leave an element at the bottom of the heap if it is larger than it's parent`, t => {
     let elements = [ 2, 7, 4, 1, 6 ],
-        expected = [ 1, 2, 4, 6, 7],
+        expected = [ 1, 2, 4, 7, 6 ],
         heap = new Heap(elements);
 
     t.deepEqual(heap.items, expected);
@@ -35,12 +35,12 @@ test(`${MODULE} - insert should leave an element at the bottom of the heap if it
 test(`${MODULE} - insert should bubble up an element until it's smaller than all of its children`, t => {
 
     let elements = [ 2, 7, 4, 1, 6 ],
-        expected = [ 1, 2, 4, 6, 7 ],
+        expected = [ 1, 2, 4, 7, 6 ],
         heap = new Heap(elements);
 
     t.deepEqual(heap.items, expected);
     heap.insert(-1);
-    expected = [-1, 2, 1, 6, 7, 4];
+    expected = [-1, 2, 1, 7, 6, 4];
     t.deepEqual(heap.items, expected);
     t.end();
 });

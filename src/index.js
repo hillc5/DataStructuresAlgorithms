@@ -1,5 +1,5 @@
 import { BSTree, Heap, PriorityQueue, LinkedList } from './data-structures/data-structures';
-import { binaryTreeSort, bubbleSort, insertionSort, shellSort, selectionSort, mergeSort } from './algorithms/algorithms';
+import { binaryTreeSort, bubbleSort, heapSort, insertionSort, shellSort, selectionSort, mergeSort } from './algorithms/algorithms';
 import { perfUtil } from './utils/performance-utils';
 
 import { Observable } from 'rx';
@@ -125,12 +125,20 @@ shell.run();
 
 
 let comparator = (val1, val2) => val1 - val2 > 0 ? -1 : val1 - val2 < 0 ? 1 : 0,
-    perf = perfUtil(1e1, comparator, 'ms');
+    perf = perfUtil(1e1, undefined, 'ms');
 
 let mergeSortRun = perf.runMeasureSuite(mergeSort);
-console.log(mergeSortRun);
+console.log('Merge Sort');
+console.table(mergeSortRun);
 let shellSortRun = perf.runMeasureSuite(shellSort);
-console.log(shellSortRun);
+console.log('Shell Sort');
+console.table(shellSortRun);
+let heapSortRun = perf.runMeasureSuite(heapSort);
+console.log('Heap Sort');
+console.table(heapSortRun);
+let treeSortRun = perf.runMeasureSuite(binaryTreeSort);
+console.log('Tree Sort');
+console.table(treeSortRun);
 
 
 let list = new LinkedList([1, 2, 3]);
@@ -153,5 +161,5 @@ console.log(`-1234 reversed = ${reverseNum(-1234)}`);
 
 const largestFirst = (val1, val2) => (val1 > val2) ? -1 : (val1 < val2) ? 1 : 0;
 let items = [ 3, 22, -1, 42, -2, 33, 24 ];
-let heap = new Heap(items, largestFirst);
+let heap = new Heap(items);
 //heap.heapify(items);

@@ -26,33 +26,26 @@ function bubbleUp(elIdx, arr, comparatorFn) {
 }
 
 function bubbleDown(elIdx, arr, comparatorFn) {
-    let leftChildIdx = leftChildIndex(elIdx),
-        rightChildIdx = rightChildIndex(elIdx),
-        el = arr[elIdx],
-        leftChild = arr[leftChildIdx],
-        rightChild = arr[rightChildIdx],
-        swapIdx;
+    let endIdx = arr.length - 1;
+    while(leftChildIndex(elIdx) <= endIdx) {
+        let leftChildIdx = leftChildIndex(elIdx),
+            rightChildIdx = rightChildIndex(elIdx),
+            swapIdx = elIdx;
 
-    // el > leftChild || el > rightChild -> bubble el down
-    while(gt(el, leftChild, comparatorFn) || gt(el, rightChild, comparatorFn)) {
-        if (gt(el, leftChild, comparatorFn) && gt(el, rightChild, comparatorFn)) {
-            // if el > left && el > right -> swap with the smaller of the two
-            swapIdx = lt(leftChild, rightChild, comparatorFn) ? leftChildIdx : rightChildIdx;
-        } else if (gt(el, leftChild, comparatorFn)) {
+        if (gt(arr[swapIdx], arr[leftChildIdx], comparatorFn)) {
             swapIdx = leftChildIdx;
-        } else if (gt(el, rightChild, comparatorFn)) {
+        }
+
+        if (rightChildIdx <= endIdx && gt(arr[swapIdx], arr[rightChildIdx], comparatorFn)) {
             swapIdx = rightChildIdx;
         }
-        swap(elIdx, swapIdx, arr);
 
-        // Now that we've swapped, continue the bubble down starting at
-        // the index that we just swapped el to.
-        elIdx = swapIdx;
-        leftChildIdx = leftChildIndex(elIdx);
-        rightChildIdx = rightChildIndex(elIdx);
-        el = arr[elIdx];
-        leftChild = arr[leftChildIdx];
-        rightChild = arr[rightChildIdx];
+        if (swapIdx === elIdx) {
+            break;
+        } else {
+            swap(elIdx, swapIdx, arr);
+            elIdx = swapIdx;
+        }
     }
 }
 
@@ -111,9 +104,9 @@ Heap.prototype.peek = function() {
  * @returns {*}
  */
 Heap.heapify = function(arr, comparatorFn) {
-    let startIdx = arr.length - 1;
-    while(startIdx > 0) {
-        bubbleUp(startIdx, arr, comparatorFn);
+    let startIdx = parentIndex(arr.length - 1);
+    while(startIdx >= 0) {
+        bubbleDown(startIdx, arr, comparatorFn);
         startIdx -= 1;
     }
     return arr;

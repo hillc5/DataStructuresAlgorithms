@@ -1,3 +1,5 @@
+import { verifySorted } from './array-utils';
+
 const performance = window.performance;
 const UNITS = {
     MS: {
@@ -49,16 +51,19 @@ let perfUtil = (function() {
             [ 1e1, 1e2, 1e3, 1e4, 1e5, 1e6 ].forEach(num => {
                 let elements = getElements(num),
                     algObj = alg(elements, this.comparator),
+                    sortedElements,
+                    isSorted,
                     convertedTime,
                     start,
                     time;
 
                 start = performance.now();
-                algObj.run();
+                sortedElements = algObj.run();
                 time = performance.now() - start;
+                isSorted = verifySorted(sortedElements, this.comparator);
 
                 convertedTime = `${UNITS[this.units].conversion(time)} ${UNITS[this.units].name}`;
-                results.push({ num: num, time: time, pretty: convertedTime });
+                results.push({ num: num, time: time, pretty: convertedTime, sorted: isSorted });
             });
             return results;
         },
