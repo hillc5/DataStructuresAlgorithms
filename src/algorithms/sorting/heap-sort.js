@@ -8,9 +8,7 @@ function sortFunction() {
     while(heap.items.length > 0) {
         results.push(heap.extractMin());
     }
-
     return results;
-
 }
 
 export default function heapSort(elements, comparatorFn) {
