@@ -1,38 +1,42 @@
-import BSTree from '../binary-search-tree/binary-tree';
+import { Heap } from '../data-structures';
 
 
 function PriorityQueue(values, comparatorFn) {
-    this.tree = new BSTree(values, comparatorFn);
+    // Heap is destructive for speed purposes
+    let items = values ? [].concat(values) : [];
+    this.heap = new Heap(items, comparatorFn);
+    this.comparatorFn = comparatorFn;
     
     Object.defineProperties(this, {
         size: {
-            get: () => this.tree.size
+            get: () => this.heap.size()
         }
     });
 }
 
 PriorityQueue.prototype.add = function(value) {
-    this.tree.addNode(value);    
+    this.heap.insert(value);
 };
 
 PriorityQueue.prototype.remove = function(value) {
-    return !!this.tree.removeNode(value);
+    return !!this.heap.remove(value);
 };
 
 PriorityQueue.prototype.poll = function() {
-    return this.tree.removeSmallestNode().value;
+    return this.heap.extractMin();
 };
 
 PriorityQueue.prototype.peek = function() {
-    return this.tree.getSmallestValue();
+    return this.heap.peek();
 };
 
 PriorityQueue.prototype.toArray = function() {
-    return this.tree.valuesInOrder();
+    // Need to copy heap items so as not to destroy that array
+    return Heap.sort([...this.heap.items], this.comparatorFn);
 };
 
 PriorityQueue.prototype.clear = function() {
-    this.tree.removeAll();
+    this.heap.clearAll();
 };
 
 export default PriorityQueue;

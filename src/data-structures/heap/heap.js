@@ -17,7 +17,7 @@ function bubbleUp(elIdx, arr, comparatorFn) {
     let parentIdx = parentIndex(elIdx);
 
     // el < parent -> bubbleUp
-    while(lt(arr[elIdx], arr[parentIdx], comparatorFn)) {
+    while(parentIdx >= 0 && lt(arr[elIdx], arr[parentIdx], comparatorFn)) {
         swap(elIdx, parentIdx, arr);
 
         elIdx = parentIdx;
@@ -50,7 +50,9 @@ function bubbleDown(elIdx, arr, comparatorFn) {
 }
 
 /**
- * Creates a new Heap with the given array of elements
+ * Creates a new Heap with the given array of elements.  The
+ * given array of elements are 'heapified' in place which does not
+ * preserve the original list of elements
  *
  * @param arr
  * @constructor
@@ -76,6 +78,26 @@ Heap.prototype.insert = function(element) {
 };
 
 /**
+ * Removes and returns the given element in this heap, or undefined if
+ * the element is not found.  Heap order is restored after the
+ * removal
+ *
+ * @param element
+ * @returns {*}
+ */
+Heap.prototype.remove = function(element) {
+    let removeIdx = this.items.indexOf(element),
+        result;
+
+    if (removeIdx > -1) {
+        swap(removeIdx, this.items.length - 1, this.items);
+        result = this.items.pop();
+        bubbleDown(removeIdx, this.items, this.comparatorFn);
+    }
+    return result;
+};
+
+/**
  * Removes and returns the minimum/maximum value in the
  * Heap as determined by the comparatorFn
  * @returns {*}
@@ -97,6 +119,21 @@ Heap.prototype.peek = function() {
 };
 
 /**
+ * Returns the size of this heap
+ * @returns {*}
+ */
+Heap.prototype.size = function() {
+    return this.items.length;
+};
+
+/**
+ * Removes all items from this heap
+ */
+Heap.prototype.clearAll = function() {
+    this.items = [];
+};
+
+/**
  * Arranges the given array so that it satisfies the
  * Heap property determined by the comparatorFn.
  *
@@ -110,4 +147,24 @@ Heap.heapify = function(arr, comparatorFn) {
         startIdx -= 1;
     }
     return arr;
+};
+
+/**
+ * Sorts and returns the given array using the given comparatorFn if
+ * defined.  This operation does not make a copy of the given array
+ * and can be considered as destructive.
+ *
+ * @param arr
+ * @param comparatorFn
+ * @returns {Array}
+ */
+Heap.sort = function(arr, comparatorFn) {
+    let heap = new Heap(arr, comparatorFn),
+        result = [];
+
+    while(heap.items.length > 0) {
+        result.push(heap.extractMin());
+    }
+
+    return result;
 };

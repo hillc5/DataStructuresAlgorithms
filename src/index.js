@@ -123,6 +123,15 @@ let elements = [2, 5, 1, -1, 3, -10];
 let shell = mergeSort(elements);
 shell.run();
 
+if (true) {
+    let comparator = (val1, val2) => { return val1.length - val2.length },
+        pQueue = new PriorityQueue([ 'berry', 'arch' ], comparator);
+
+    pQueue.toArray();
+    pQueue.add('zoo');
+    pQueue.toArray();
+}
+
 
 let comparator = (val1, val2) => val1 - val2 > 0 ? -1 : val1 - val2 < 0 ? 1 : 0,
     perf = perfUtil(1e1, undefined, 'ms');

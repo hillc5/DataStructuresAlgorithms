@@ -45,6 +45,53 @@ test(`${MODULE} - insert should bubble up an element until it's smaller than all
     t.end();
 });
 
+test(`${MODULE} - remove should maintain heap order after remove in middle of heap`, t => {
+    let elements = [ 2, 7, 4, 1, 6 ],
+        expected = [ 1, 2, 4, 7, 6 ],
+        heap = new Heap(elements),
+        removed;
+
+    t.deepEqual(heap.items, expected);
+    removed = heap.remove(4);
+    t.equal(removed, 4);
+    expected = [ 1, 2, 6, 7 ];
+    t.deepEqual(heap.items, expected);
+    t.end();
+});
+
+
+test(`${MODULE} - remove should maintain heap order after remove at start of heap`, t => {
+    let elements = [ 2, 7, 4, 1, 6 ],
+        expected = [ 1, 2, 4, 7, 6 ],
+        heap = new Heap(elements),
+        removed;
+
+    t.deepEqual(heap.items, expected);
+    removed = heap.remove(1);
+    t.equal(removed, 1);
+    expected = [ 2, 6, 4, 7 ];
+    t.deepEqual(heap.items, expected);
+    t.end();
+});
+
+test(`${MODULE} - remove should maintain heap order and heap sort should still function correctly`, t => {
+    let heapExpected = [ 1, 2, 4, 7, 6 ],
+        sortedExpected = [ 1, 2, 4, 6, 7 ],
+        heap = new Heap([ 2, 7, 4, 1, 6 ]),
+        sorted = Heap.sort([ 2, 7, 4, 1, 6 ]),
+        removed;
+
+    t.deepEqual(heap.items, heapExpected);
+    t.deepEqual(sorted, sortedExpected);
+    removed = heap.remove(2);
+    heapExpected = [ 1, 6, 4, 7 ];
+    sortedExpected = [ 1, 4, 6, 7];
+    t.equal(removed, 2);
+    t.deepEqual(heap.items, heapExpected);
+    t.deepEqual(Heap.sort(heap.items), sortedExpected);
+    t.end();
+});
+
 test(`${MODULE} - extractMin should do nothing if the heap is empty`, t => {
     let heap = new Heap();
     t.notOk(heap.extractMin());

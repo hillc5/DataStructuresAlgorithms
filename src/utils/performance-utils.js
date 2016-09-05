@@ -22,7 +22,6 @@ const UNITS = {
     }
 };
 
-
 function getElements(num) {
     let result = new Array(num).fill(0);
 

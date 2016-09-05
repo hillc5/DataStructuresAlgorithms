@@ -6,7 +6,7 @@ const MODULE = 'PRIORITY_QUEUE';
 test(`${MODULE} - constructor should create an empty priority Queue when no value is given`, t => {
     let pQueue = new PriorityQueue();
     t.equal(pQueue.size, 0);
-    t.equal(pQueue.peek(), null);
+    t.equal(pQueue.peek(), undefined);
     t.end();
 });
 
@@ -38,6 +38,7 @@ test(`${MODULE} - add should add a value in the correct order when a comparator 
     let comparator = (val1, val2) => { return val1.length - val2.length },
         pQueue = new PriorityQueue([ 'berry', 'arch' ], comparator);
 
+    console.log(pQueue.heap.items);
     t.deepEqual(pQueue.toArray(), [ 'arch', 'berry' ]);
     pQueue.add('zoo');
     t.deepEqual(pQueue.toArray(), [ 'zoo', 'arch', 'berry' ]);
