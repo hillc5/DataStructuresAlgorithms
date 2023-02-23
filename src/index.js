@@ -2,7 +2,7 @@ import { BSTree, Heap, PriorityQueue, LinkedList, Trie } from './data-structures
 import { binaryTreeSort, bubbleSort, heapSort, insertionSort, shellSort, selectionSort, mergeSort } from './algorithms/algorithms';
 import { perfUtil } from './utils/performance-utils';
 
-let tree = new BSTree([ 3, 1, 5, 2, 6 ]);
+let tree = new BSTree([3, 1, 5, 2, 6]);
 console.log(tree.valuesInOrder());
 
 let elements = [2, 5, 1, -1, 3, -10];
@@ -11,7 +11,7 @@ shell.run();
 
 if (true) {
     let comparator = (val1, val2) => { return val1.length - val2.length },
-        pQueue = new PriorityQueue([ 'berry', 'arch' ], comparator);
+        pQueue = new PriorityQueue(['berry', 'arch'], comparator);
 
     pQueue.toArray();
     pQueue.add('zoo');
@@ -55,7 +55,7 @@ console.log(`23498234 reversed = ${reverseNum(23498234)}`);
 console.log(`-1234 reversed = ${reverseNum(-1234)}`);
 
 const largestFirst = (val1, val2) => (val1 > val2) ? -1 : (val1 < val2) ? 1 : 0;
-let items = [ 3, 22, -1, 42, -2, 33, 24 ];
+let items = [3, 22, -1, 42, -2, 33, 24];
 let heap = new Heap(items);
 //heap.heapify(items);
 
@@ -64,4 +64,13 @@ let trie = new Trie(word);
 trie.add('wordy');
 trie.add('worm');
 trie.add('world');
+
+console.log(trie.search('wordy'));
+console.log(trie.search('word'));
+console.log(trie.search('notfound'));
+
+trie.delete('wordy');
+console.log(trie.search('wordy'));
+console.log(trie.search('worm'));
+console.log(trie.search('world'))
 console.table(trie);
