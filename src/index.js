@@ -1,4 +1,4 @@
-import { BSTree, Heap, PriorityQueue, LinkedList, Trie } from './data-structures/data-structures';
+import { BSTree, Heap, PriorityQueue, LinkedList, Trie, HashTable } from './data-structures/data-structures';
 import { binaryTreeSort, bubbleSort, heapSort, insertionSort, shellSort, selectionSort, mergeSort } from './algorithms/algorithms';
 import { perfUtil } from './utils/performance-utils';
 
@@ -74,3 +74,10 @@ console.log(trie.search('wordy'));
 console.log(trie.search('worm'));
 console.log(trie.search('world'))
 console.table(trie);
+
+let hashTable = new HashTable();
+hashTable.insert(4, 'test');
+hashTable.insert(23, 'another test');
+console.log(hashTable.search(4));
+console.table(hashTable);
+
