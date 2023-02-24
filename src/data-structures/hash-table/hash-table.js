@@ -29,6 +29,7 @@ export default class HashTable {
 
             while (target.next) {
                 if (target.key === key) {
+                    target.value = value;
                     break;
                 }
 
