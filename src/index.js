@@ -78,6 +78,11 @@ console.table(trie);
 let hashTable = new HashTable();
 hashTable.insert(4, 'test');
 hashTable.insert(23, 'another test');
+hashTable.insert(2, 'second');
+hashTable.insert(1, 'first');
+hashTable.insert(22, 'twenty two');
+hashTable.insert(234, '234');
+hashTable.insert(11, 'eleven');
 console.log(hashTable.search(4));
 console.table(hashTable);
 
